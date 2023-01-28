@@ -1,0 +1,11 @@
+name: Entertainments
+version: '${project.version}'
+main: entertainer.entertainments.Entertainments
+api-version: 1.19
+authors: [ KingDev ]
+description: Entertainments plugins name desicripes de plugin
+commands:
+  tntbow:
+    description: Toggle the tnt bow feature
+  groundlifter:
+    description: Toggle lift the ground bow
