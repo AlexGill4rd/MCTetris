@@ -27,7 +27,8 @@ public class TetrisBlockPlacer implements Listener {
 
         if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase("tetris placer")){
             TetrisBlock tetrisBlock = palletHandler.getTetrisBlock(6);
-            tetrisBlock.place(e.getClickedBlock().getLocation(), 2);
+            tetrisBlock.setCurrentLocation(e.getClickedBlock().getLocation());
+            tetrisBlock.setCurrentVariant(2);
             player.sendMessage("§6You have placed a tetris block!");
         }
     }

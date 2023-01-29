@@ -1,14 +1,21 @@
 package entertainer.entertainments.tetris.objects;
 
 import entertainer.entertainments.Entertainments;
+import entertainer.entertainments.tetris.events.TetrisGameEndEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
-import javax.swing.border.EtchedBorder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
+import static entertainer.entertainments.functions.Functions.createItemstack;
+import static entertainer.entertainments.functions.Functions.createLore;
 import static entertainer.entertainments.tetris.listeners.PalletSelectListener.palletHandler;
 
 public class TetrisBoard {
@@ -18,19 +25,21 @@ public class TetrisBoard {
     private Location leftBottomCorner = null;
     private Location rightTopCorner = null;
 
-    //Delay till the game starts (s)
-    private float startDelay = 10;
+    private int score = 0;
 
-    //Delay till next tetris block will fall (ms)
-    private int blockSpeed = 500;
+    //Delay till the game starts (s)
+    private float startDelay = 0;
+
+    //Delay till next tetris block will fall (ticks)
+    private int blockSpeed = 5;
 
     private Player host;
     private ArrayList<Player> players = new ArrayList<>();
 
     private TetrisBlock nextBlock;
-    private boolean gameEnded = true;
 
-    private TetrisBlock currentBlock;
+    public TetrisBlock currentBlock;
+    private ArrayList<TetrisBlock> tetrisBlocks = new ArrayList<>();
 
     public TetrisBoard(Player host) {
         this.host = host;
@@ -56,50 +65,95 @@ public class TetrisBoard {
         this.rightTopCorner = rightTopCorner;
     }
 
-    public void start(){
+    private boolean started = false;
+
+
+    //START AND STOP
+    public boolean start(){
         if (leftBottomCorner == null || rightTopCorner == null){
             host.sendMessage("§cPlease first configure the tetris board!");
-            return;
+            return false;
         }
+        started = true;
         //Start delay timer for game start
-        Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-            @Override
-            public void run() {
-
-                //Task asynchronous for game running
-                Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-                    @Override
-                    public void run() {
-
-                        //Check if the game is over
-                        //Each loop is a round of 1 tetris block
-                        while (!gameEnded){
-                            //Block move and spawn downwards loop
-                            Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (currentBlock == null)
-                                        spawnNextTetris();
-                                    else{
-                                        gameEnded = !moveTetris();
-                                    }
-                                }
-                            }, 0, blockSpeed);
-                        }
-                    }
-                });
-            }
-        }, (long) (20 * startDelay));
+        Bukkit.getScheduler().runTaskLater(plugin, this::spawnTetrisBlock, (long) (20 * startDelay));
+        showControls();
+        return true;
     }
-    private boolean moveTetris(){
-        return currentBlock.move(-1);
+    private HashMap<Integer, ItemStack> hostInventory = new HashMap<>();
+    public void showControls(){
+        hostInventory.clear();
+        for (int i = 0; i < host.getInventory().getSize(); i++){
+            ItemStack itemStack = host.getInventory().getItem(i);
+            hostInventory.put(i, itemStack);
+        }
+        host.getInventory().clear();
+
+        ItemStack leftStick = createItemstack(Material.ARROW, "§7§l<", createLore("§6§l§m------", "§7Tool to change the position of the tetris block on the screen", "", "§7Usage:", "§fRight-Click §7To go to the left" ,"§6§l§m------"));
+        ItemStack goFaster = createItemstack(Material.STICK, "§6§lGo §eFaster", createLore("§6§l§m------", "§7Make the block go down faster", "", "§7Usage:", "§fRight-Click §8§lHOLD §7To make faster" ,"§6§l§m------"));
+        ItemStack rightStick = createItemstack(Material.ARROW, "§7§l>", createLore("§6§l§m------", "§7Tool to change the position of the tetris block on the screen", "", "§7Usage:", "§fRight-Click §7To go to the right" ,"§6§l§m------"));
+
+        host.getInventory().setItem(3, leftStick);
+        host.getInventory().setItem(4, goFaster);
+        host.getInventory().setItem(5, rightStick);
     }
-    private void spawnNextTetris(){
+    public void revertInventory(){
+        for (int i : hostInventory.keySet()){
+            host.getInventory().setItem(i, hostInventory.get(i));
+        }
+    }
+    public void stop(){
+        started = false;
+        TetrisGameEndEvent event = new TetrisGameEndEvent(this);
+        Bukkit.getPluginManager().callEvent(event);
+    }
+
+    //PROPERTIES
+    public int getScore() {
+        return score;
+    }
+    public void setScore(int score) {
+        this.score = score;
+    }
+    public void addScore(int score) {
+        this.score+=score;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+    public Player getHost() {
+        return host;
+    }
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    //FUNCTIONS
+    public int downLoopTask;
+    public void spawnTetrisBlock(){
         Random r = new Random();
         int randomTetrisIndex = r.nextInt(6);
         currentBlock = palletHandler.getTetrisBlock(randomTetrisIndex);
         currentBlock.setCurrentVariant(0);
-        currentBlock.setCurrentLocation(rightTopCorner.clone().add(20, 0, 0));
+        currentBlock.setCurrentLocation(rightTopCorner.clone().add(-17, 0, 0));
         currentBlock.place();
+
+        downLoopTask = new BukkitRunnable() {
+            @Override
+            public void run() {
+                currentBlock.move(TetrisBlock.TetrisDirection.DOWN,-3);
+                if (!started){
+                    cancel();
+                }
+            }
+        }.runTaskTimer(plugin, 0, blockSpeed).getTaskId();
+    }
+    public void clearArea(){
+        Cuboid cuboid = new Cuboid(leftBottomCorner, rightTopCorner);
+        for (Block block : cuboid.getBlocks()){
+            block.setType(Material.AIR);
+        }
     }
 }

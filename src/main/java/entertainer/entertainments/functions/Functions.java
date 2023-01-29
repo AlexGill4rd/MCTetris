@@ -16,4 +16,27 @@ public class Functions {
         stack.setItemMeta(stack_meta);
         return stack;
     }
+    public static ArrayList<String> createLore(String... args){
+        ArrayList<String> lines = new ArrayList<>();
+        for (String arg : args)
+            lines.addAll(splitString(arg, 40));
+        return lines;
+    }
+    public static ArrayList<String> splitString(String s, int length){
+        ArrayList<String> list = new ArrayList<>();
+        StringBuilder sentence = new StringBuilder();
+        String[] words = s.split(" ");
+        String latestColor = "§7";
+        for (String word : words) {
+            if (word.contains("§"))
+                latestColor = "§" + word.charAt(word.indexOf("§") + 1);
+            if (sentence.length() + word.length() + 1 > length) {
+                list.add(sentence.toString().trim());
+                sentence = new StringBuilder();
+                sentence.append(latestColor).append(word).append(" ");
+            } else sentence.append(latestColor).append(word).append(" ");
+        }
+        list.add(sentence.toString().trim());
+        return list;
+    }
 }

@@ -1,9 +1,8 @@
 package entertainer.entertainments;
 
 import entertainer.entertainments.groundlifter.listener.GroundLiftListener;
-import entertainer.entertainments.tetris.listeners.PalletSelectListener;
-import entertainer.entertainments.tetris.listeners.TetrisBlockPlacer;
-import entertainer.entertainments.tetris.listeners.TetrisZoneSeletionListener;
+import entertainer.entertainments.tetris.command.TetrisCommand;
+import entertainer.entertainments.tetris.listeners.*;
 import entertainer.entertainments.tntbow.listeners.BowShootListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -22,6 +21,12 @@ public final class Entertainments extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PalletSelectListener(), this);
         getServer().getPluginManager().registerEvents(new TetrisBlockPlacer(), this);
         getServer().getPluginManager().registerEvents(new TetrisZoneSeletionListener(), this);
+        getServer().getPluginManager().registerEvents(new TetrisControllerListener(), this);
+        //Custom Events
+        getServer().getPluginManager().registerEvents(new TetrisBlockCollideListener(), this);
+        getServer().getPluginManager().registerEvents(new TetrisGameEndListener(), this);
+
+        getCommand("tetris").setExecutor(new TetrisCommand());
 
         getCommand("tntbow").setExecutor(new FeatureCommand());
         getCommand("groundlifter").setExecutor(new FeatureCommand());

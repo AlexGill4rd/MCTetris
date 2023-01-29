@@ -9,3 +9,5 @@ commands:
     description: Toggle the tnt bow feature
   groundlifter:
     description: Toggle lift the ground bow
+  tetris:
+    description: Command for the tetris game
