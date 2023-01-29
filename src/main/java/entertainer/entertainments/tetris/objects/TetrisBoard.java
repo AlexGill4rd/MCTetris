@@ -67,7 +67,6 @@ public class TetrisBoard {
 
     private boolean started = false;
 
-
     //START AND STOP
     public boolean start(){
         if (leftBottomCorner == null || rightTopCorner == null){
@@ -131,7 +130,7 @@ public class TetrisBoard {
     }
 
     //FUNCTIONS
-    public int downLoopTask;
+    public int moveLoopTask;
     public void spawnTetrisBlock(){
         Random r = new Random();
         int randomTetrisIndex = r.nextInt(6);
@@ -140,13 +139,12 @@ public class TetrisBoard {
         currentBlock.setCurrentLocation(rightTopCorner.clone().add(-17, 0, 0));
         currentBlock.place();
 
-        downLoopTask = new BukkitRunnable() {
+        moveLoopTask = new BukkitRunnable() {
             @Override
             public void run() {
                 currentBlock.move(TetrisBlock.TetrisDirection.DOWN,-3);
-                if (!started){
+                if (!started)
                     cancel();
-                }
             }
         }.runTaskTimer(plugin, 0, blockSpeed).getTaskId();
     }

@@ -71,13 +71,16 @@ public class TetrisBlock {
     }
     public void place(){
         if (currentVariant == -1)return;
+
+        //Get all blocks of a Tetris piece variant
         Block[][][] blocks = variants.get(currentVariant);
         for(int x = 0; x < 12; x++) {
             for(int y = 0; y < 12; y++) {
                 for(int z = 0; z < 3; z++) {
+                    //Skip block overwriting with AIR
                     if (blocks[x][y][z] == null || blocks[x][y][z].getType() == Material.AIR)continue;
+                    //Set block to corresponding block in blocks 3D array
                     Block block = currentLocation.clone().add(x, y, z).getBlock();
-                    if (block.getType() != Material.AIR)continue;
                     block.setType(blocks[x][y][z].getType());
                     block.setBlockData(blocks[x][y][z].getBlockData());
                 }
@@ -101,9 +104,24 @@ public class TetrisBlock {
         }
         return highestNumber;
     }
-    public boolean canMove(TetrisDirection tetrisDirection){
+    public Integer getHeight(){
         Block[][][] blocks = variants.get(currentVariant);
+        int highestNumber = 0;
 
+        for (int x = 0; x < 12; x++){
+            int midNum = 0;
+            for (int y = 0; y < 12; y++){
+                if (blocks[x][y][0].getType() == Material.AIR)
+                    break;
+                else
+                    midNum++;
+            }
+            if (midNum > highestNumber)
+                highestNumber = midNum;
+        }
+        return highestNumber;
+    }
+    public boolean canMove(TetrisDirection tetrisDirection){
         switch (tetrisDirection){
             case DOWN:
                 for(int x = 0; x < 12; x++) {
@@ -125,8 +143,6 @@ public class TetrisBlock {
                         Location newLoc2 = currentLocation.clone().add(width + 1, y, z);
 
                         if (newLoc1.getBlock().getType() != Material.AIR && newLoc2.getBlock().getType() != Material.AIR){
-                            System.out.println(newLoc1);
-                            System.out.println(newLoc2);
                             return false;
                         }
                     }
@@ -160,7 +176,7 @@ public class TetrisBlock {
             }
         }
     }
-    public boolean move(TetrisDirection tetrisDirection, int amount) {
+    public void move(TetrisDirection tetrisDirection, int amount) {
         if (canMove(tetrisDirection) && tetrisBoard.isStarted()){
             removeTetrisBlock();
             switch (tetrisDirection){
@@ -173,22 +189,18 @@ public class TetrisBlock {
                     break;
             }
             this.place();
-            return true;
         }else {
             if (tetrisDirection == TetrisDirection.DOWN){
-                if (currentLocation.getBlockY() + 12 >= tetrisBoard.getRightTopCorner().getBlockY()){
+                if (currentLocation.getBlockY() + getHeight() >= tetrisBoard.getRightTopCorner().getBlockY()){
                     for (Player player : tetrisBoard.getPlayers())
                         player.sendTitle("§4You lost!", "§7Tetris above maximum height!", 20, 40, 20);
                     tetrisBoard.getHost().sendTitle("§4You lost!", "§7Tetris above maximum height!", 20, 40, 20);
-
                     tetrisBoard.stop();
                 }else{
                     TetrisBlockCollideEvent event = new TetrisBlockCollideEvent(this);
                     Bukkit.getPluginManager().callEvent(event);
                 }
-                return false;
-            }else
-                return true;
+            }
         }
     }
     public enum TetrisDirection{

@@ -11,7 +11,7 @@ public class TetrisBlockCollideListener implements Listener {
 
     @EventHandler
     public void onTetrisBlockCollide(TetrisBlockCollideEvent e){
-        Bukkit.getScheduler().cancelTask(tetrisBoard.downLoopTask);
+        Bukkit.getScheduler().cancelTask(tetrisBoard.moveLoopTask);
         if (tetrisBoard.isStarted()){
             tetrisBoard.spawnTetrisBlock();
             tetrisBoard.addScore(1);
