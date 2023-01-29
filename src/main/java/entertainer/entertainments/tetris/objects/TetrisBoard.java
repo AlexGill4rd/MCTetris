@@ -1,6 +1,7 @@
 package entertainer.entertainments.tetris.objects;
 
 import entertainer.entertainments.Entertainments;
+import entertainer.entertainments.tetris.enums.TetrisDirection;
 import entertainer.entertainments.tetris.events.TetrisGameEndEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -9,6 +10,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -130,8 +132,12 @@ public class TetrisBoard {
     }
 
     //FUNCTIONS
-    public int moveLoopTask;
+    public BukkitTask blockLoopTask = null;
     public void spawnTetrisBlock(){
+        if (blockLoopTask != null){
+            blockLoopTask.cancel();
+            blockLoopTask = null;
+        }
         Random r = new Random();
         int randomTetrisIndex = r.nextInt(6);
         currentBlock = palletHandler.getTetrisBlock(randomTetrisIndex);
@@ -139,14 +145,12 @@ public class TetrisBoard {
         currentBlock.setCurrentLocation(rightTopCorner.clone().add(-17, 0, 0));
         currentBlock.place();
 
-        moveLoopTask = new BukkitRunnable() {
+        blockLoopTask = new BukkitRunnable() {
             @Override
             public void run() {
-                currentBlock.move(TetrisBlock.TetrisDirection.DOWN,-3);
-                if (!started)
-                    cancel();
+                currentBlock.move(TetrisDirection.DOWN,-3);
             }
-        }.runTaskTimer(plugin, 0, blockSpeed).getTaskId();
+        }.runTaskTimer(plugin, blockSpeed, blockSpeed);
     }
     public void clearArea(){
         Cuboid cuboid = new Cuboid(leftBottomCorner, rightTopCorner);

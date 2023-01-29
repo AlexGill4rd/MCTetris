@@ -1,5 +1,6 @@
 package entertainer.entertainments.tetris.listeners;
 
+import entertainer.entertainments.tetris.enums.TetrisDirection;
 import entertainer.entertainments.tetris.objects.TetrisBlock;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -21,11 +22,11 @@ public class TetrisControllerListener implements Listener {
                 player.getInventory().getItemInMainHand().getItemMeta() == null || e.getAction() != Action.RIGHT_CLICK_AIR || e.getHand() == EquipmentSlot.OFF_HAND)return;
 
         if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("§7§l<")){
-            tetrisBoard.currentBlock.move(TetrisBlock.TetrisDirection.LEFT, -3);
+            tetrisBoard.currentBlock.move(TetrisDirection.LEFT, -3);
         }else if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("§7§l>")){
-            tetrisBoard.currentBlock.move(TetrisBlock.TetrisDirection.RIGHT, 3);
+            tetrisBoard.currentBlock.move(TetrisDirection.RIGHT, 3);
         }else if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("§6§lGo §eFaster")){
-            tetrisBoard.currentBlock.move(TetrisBlock.TetrisDirection.DOWN, -3);
+            tetrisBoard.currentBlock.move(TetrisDirection.DOWN, -3);
         }
     }
     @EventHandler

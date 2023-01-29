@@ -1,5 +1,6 @@
 package entertainer.entertainments.tetris.objects;
 
+import entertainer.entertainments.tetris.enums.TetrisDirection;
 import entertainer.entertainments.tetris.events.TetrisBlockCollideEvent;
 import entertainer.entertainments.tetris.events.TetrisGameEndEvent;
 import org.bukkit.Bukkit;
@@ -191,10 +192,12 @@ public class TetrisBlock {
             this.place();
         }else {
             if (tetrisDirection == TetrisDirection.DOWN){
-                if (currentLocation.getBlockY() + getHeight() >= tetrisBoard.getRightTopCorner().getBlockY()){
+                System.out.println(getHeight());
+                if (currentLocation.getBlockY() + getHeight() - 1 >= tetrisBoard.getRightTopCorner().getBlockY()){
                     for (Player player : tetrisBoard.getPlayers())
                         player.sendTitle("§4You lost!", "§7Tetris above maximum height!", 20, 40, 20);
                     tetrisBoard.getHost().sendTitle("§4You lost!", "§7Tetris above maximum height!", 20, 40, 20);
+                    removeTetrisBlock();
                     tetrisBoard.stop();
                 }else{
                     TetrisBlockCollideEvent event = new TetrisBlockCollideEvent(this);
@@ -202,10 +205,5 @@ public class TetrisBlock {
                 }
             }
         }
-    }
-    public enum TetrisDirection{
-        LEFT,
-        RIGHT,
-        DOWN
     }
 }
