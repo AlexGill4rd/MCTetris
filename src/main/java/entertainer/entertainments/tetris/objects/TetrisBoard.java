@@ -161,18 +161,24 @@ public class TetrisBoard {
     private final int arenaWidth = 30;
     private final int arenaHeight = 60;
     public void checkRows(){
-        for (int y = 0; y < arenaHeight; y+=3){
-            int counter = 0;
-            for (int x = 0; x < arenaWidth; x++){
-                Location newBlockLoc = leftBottomCorner.clone().add(x, y, 0);
-                if (newBlockLoc.getBlock().getType() != Material.AIR){
-                    counter++;
+        boolean foundRow;
+        do {
+            foundRow = false;
+            for (int y = 0; y < arenaHeight; y+=3){
+                int counter = 0;
+                for (int x = 0; x < arenaWidth; x++){
+                    Location newBlockLoc = leftBottomCorner.clone().add(x, y, 0);
+                    if (newBlockLoc.getBlock().getType() != Material.AIR){
+                        counter++;
+                    }
+                }
+                if (counter >= arenaWidth){
+                    foundRow = true;
+                    removeRow(y/3);
+                    break;
                 }
             }
-            if (counter >= arenaWidth){
-                removeRow(y/3);
-            }
-        }
+        }while (foundRow);
     }
     public void removeRow(int row){
         //Remove full line on screen
