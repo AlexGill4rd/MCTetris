@@ -12,6 +12,8 @@ public class TetrisBlockCollideListener implements Listener {
     public void onTetrisBlockCollide(TetrisBlockCollideEvent e){
         tetrisBoard.blockLoopTask.cancel();
 
+        tetrisBoard.checkRows();
+
         tetrisBoard.addScore(1);
 
         tetrisBoard.spawnTetrisBlock();

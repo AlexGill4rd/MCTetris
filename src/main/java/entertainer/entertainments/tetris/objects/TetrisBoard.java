@@ -33,7 +33,7 @@ public class TetrisBoard {
     private float startDelay = 0;
 
     //Delay till next tetris block will fall (ticks)
-    private int blockSpeed = 5;
+    private int blockSpeed = 10;
 
     private Player host;
     private ArrayList<Player> players = new ArrayList<>();
@@ -156,6 +156,51 @@ public class TetrisBoard {
         Cuboid cuboid = new Cuboid(leftBottomCorner, rightTopCorner);
         for (Block block : cuboid.getBlocks()){
             block.setType(Material.AIR);
+        }
+    }
+    private final int arenaWidth = 30;
+    private final int arenaHeight = 60;
+    public void checkRows(){
+        for (int y = 0; y < arenaHeight; y+=3){
+            int counter = 0;
+            for (int x = 0; x < arenaWidth; x++){
+                Location newBlockLoc = leftBottomCorner.clone().add(x, y, 0);
+                if (newBlockLoc.getBlock().getType() != Material.AIR){
+                    counter++;
+                }
+            }
+            if (counter >= arenaWidth){
+                removeRow(y/3);
+            }
+        }
+    }
+    public void removeRow(int row){
+        //Remove full line on screen
+        for (int x = 0; x < arenaWidth; x++) {
+            //((row+1)*3) - 3           Begin at bottom of the full line and not bottom of screen
+            for (int y = ((row+1)*3) - 3; y < (row*3) + 3; y++) {
+                for (int z = 0; z < 3; z++) {
+                    Location blockLoc = leftBottomCorner.clone().add(x, y, -z);
+                    blockLoc.getBlock().setType(Material.AIR);
+                }
+            }
+        }
+        //Shuffle everything 3 to the bottom
+        for (int x = 0; x < arenaWidth; x++) {
+            for (int y = 0; y < arenaHeight; y++) {
+                for (int z = 0; z < 3; z++) {
+                    Location blockLoc = leftBottomCorner.clone().add(x, y, -z);
+                    Location newBlockLoc = leftBottomCorner.clone().add(x, y - 3, -z);
+                    Block block = blockLoc.getBlock();
+
+                    if (block.getType() == Material.AIR) continue;
+
+                    newBlockLoc.getBlock().setType(block.getType());
+                    newBlockLoc.getBlock().setBlockData(block.getBlockData());
+
+                    block.setType(Material.AIR);
+                }
+            }
         }
     }
 }
