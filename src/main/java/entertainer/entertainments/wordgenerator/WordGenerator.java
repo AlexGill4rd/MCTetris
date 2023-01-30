@@ -37,7 +37,7 @@ public class WordGenerator {
     }
     public void initialiseWords(Location location){
         //Start forming
-        String letterList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:*,?/#<>+-=!|";
+        String letterList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:*,?/#<>+-=!|.";
 
         //Letters
         int letterLength = 26;
@@ -71,7 +71,7 @@ public class WordGenerator {
 
         //Start forming symbols
         Location symbolLocation = location.clone().add(-14, 0,  0);
-        int symbolLength = 13;
+        int symbolLength = 14;
         for (int z = 0; z < symbolLength; z++){
             String symbol = letterList.substring(letterLength + numberLength + z, letterLength + numberLength + z + 1);
             Block[][] blocks = new Block[3][3];
