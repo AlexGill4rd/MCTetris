@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import static entertainer.entertainments.Entertainments.wordGenerator;
 import static entertainer.entertainments.functions.Functions.createItemstack;
 import static entertainer.entertainments.functions.Functions.createLore;
 import static entertainer.entertainments.tetris.listeners.PalletSelectListener.palletHandler;
@@ -28,6 +29,7 @@ public class TetrisBoard {
     private Location rightTopCorner = null;
 
     private int score = 0;
+    private int lines = 0;
 
     //Delay till the game starts (s)
     private float startDelay = 0;
@@ -75,6 +77,8 @@ public class TetrisBoard {
             host.sendMessage("§cPlease first configure the tetris board!");
             return false;
         }
+        setScore(0);
+        setLines(0);
         started = true;
         //Start delay timer for game start
         Bukkit.getScheduler().runTaskLater(plugin, this::spawnTetrisBlock, (long) (20 * startDelay));
@@ -105,6 +109,8 @@ public class TetrisBoard {
     }
     public void stop(){
         started = false;
+        setScore(0);
+        setLines(0);
         TetrisGameEndEvent event = new TetrisGameEndEvent(this);
         Bukkit.getPluginManager().callEvent(event);
     }
@@ -115,9 +121,26 @@ public class TetrisBoard {
     }
     public void setScore(int score) {
         this.score = score;
+
+        String scoreString = String.format("%05d", this.score);
+        Location scoreLocation = rightTopCorner.clone().add(3, -12, 0);
+        wordGenerator.writeWord(scoreLocation, scoreString);
     }
     public void addScore(int score) {
-        this.score+=score;
+        setScore(this.score + score);
+    }
+    public int getLines() {
+        return lines;
+    }
+    public void setLines(int lines) {
+        this.lines = lines;
+
+        String linesString = String.format("%05d", this.lines);
+        Location scoreLocation = rightTopCorner.clone().add(3, -31, 0);
+        wordGenerator.writeWord(scoreLocation, linesString);
+    }
+    public void addLines(int lines) {
+        setLines(this.lines + lines);
     }
 
     public ArrayList<Player> getPlayers() {
@@ -209,5 +232,6 @@ public class TetrisBoard {
                 }
             }
         }
+        addLines(1);
     }
 }

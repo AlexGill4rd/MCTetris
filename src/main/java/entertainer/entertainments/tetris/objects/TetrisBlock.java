@@ -132,7 +132,6 @@ public class TetrisBlock {
                         Location newLoc1 = null;
                         for(int y = 0; y < getHeight(); y++) {
                             Location midLoc = currentLocation.clone().add(x, y, z);
-                            System.out.println(blocks[x][y][z] + "      -      " + midLoc.getBlock());
                             if (midLoc.getBlock().getType() != Material.AIR && blocks[x][y][z].getType() == midLoc.getBlock().getType()){
                                 newLoc1 = midLoc;
                                 break;

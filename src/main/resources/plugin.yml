@@ -11,3 +11,5 @@ commands:
     description: Toggle lift the ground bow
   tetris:
     description: Command for the tetris game
+  wordgenerator:
+    description: Command for the word generator feature

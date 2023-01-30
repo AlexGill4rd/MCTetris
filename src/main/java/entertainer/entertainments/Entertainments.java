@@ -4,11 +4,16 @@ import entertainer.entertainments.groundlifter.listener.GroundLiftListener;
 import entertainer.entertainments.tetris.command.TetrisCommand;
 import entertainer.entertainments.tetris.listeners.*;
 import entertainer.entertainments.tntbow.listeners.BowShootListener;
+import entertainer.entertainments.wordgenerator.WordGenerator;
+import entertainer.entertainments.wordgenerator.command.WordGeneratorCommand;
+import entertainer.entertainments.wordgenerator.listeners.WordsSelectionListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Entertainments extends JavaPlugin {
 
     public static FeatureManager featureManager = new FeatureManager();
+
+    public static WordGenerator wordGenerator = new WordGenerator();
 
     @Override
     public void onEnable() {
@@ -25,8 +30,13 @@ public final class Entertainments extends JavaPlugin {
         //Custom Events
         getServer().getPluginManager().registerEvents(new TetrisBlockCollideListener(), this);
         getServer().getPluginManager().registerEvents(new TetrisGameEndListener(), this);
-
         getCommand("tetris").setExecutor(new TetrisCommand());
+
+
+        //Word generator
+        getServer().getPluginManager().registerEvents(new WordsSelectionListener(), this);
+        getCommand("wordgenerator").setExecutor(new WordGeneratorCommand());
+
 
         getCommand("tntbow").setExecutor(new FeatureCommand());
         getCommand("groundlifter").setExecutor(new FeatureCommand());
