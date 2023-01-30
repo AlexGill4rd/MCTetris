@@ -24,8 +24,16 @@ public class WordGenerator {
                 for (int x = 0; x < 3; x++){
                     for (int y = 0; y < 3; y++){
                         Location blockPlaceLoc = location.clone().add(x + ((wordCount*3) + wordCount), y, 0);
+<<<<<<< Updated upstream
                         if (letter.getBlocks()[x][y] == null)continue;
                         blockPlaceLoc.getBlock().setType(letter.getBlocks()[x][y].getType());
+=======
+                        if (letter.getBlocks()[x][y] == null) {
+                            blockPlaceLoc.getBlock().setType(Material.AIR);
+                            continue;
+                        }
+                        blockPlaceLoc.getBlock().setType(letter.getBlocks()[x][y].getMaterial());
+>>>>>>> Stashed changes
                         blockPlaceLoc.getBlock().setBlockData(letter.getBlocks()[x][y].getBlockData());
                     }
                 }
