@@ -126,15 +126,26 @@ public class TetrisBlock {
     public boolean canMove(TetrisDirection tetrisDirection){
         switch (tetrisDirection){
             case DOWN:
+                Block[][][] blocks = variants.get(currentVariant);
                 for(int x = 0; x < getWidth(); x++) {
-                    for(int y = 0; y < getHeight(); y++) {
-                        for(int z = 0; z < 3; z++) {
-                            Location newLoc1 = currentLocation.clone().add(x, 0, z);
-                            Location newLoc2 = currentLocation.clone().add(x, -1, z);
+                    for(int z = 0; z < 3; z++) {
+                        Location newLoc1 = null;
+                        for(int y = 0; y < getHeight(); y++) {
+                            Location midLoc = currentLocation.clone().add(x, y, z);
+                            System.out.println(blocks[x][y][z] + "      -      " + midLoc.getBlock());
+                            if (midLoc.getBlock().getType() != Material.AIR && blocks[x][y][z].getType() == midLoc.getBlock().getType()){
+                                newLoc1 = midLoc;
+                                break;
+                            }
+                        }
+                        if (newLoc1 != null){
+                            Location newLoc2 = newLoc1.clone().add(0, -1, 0);
 
                             if (newLoc1.getBlock().getType() != Material.AIR && newLoc2.getBlock().getType() != Material.AIR){
                                 return false;
                             }
+                        }else{
+                            return false;
                         }
                     }
 
