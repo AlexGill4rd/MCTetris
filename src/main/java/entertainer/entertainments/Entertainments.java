@@ -63,16 +63,17 @@ public final class Entertainments extends JavaPlugin {
         //Load all tetris boards
         if (Configs.getCustomConfig3().contains("locations")){
             for (String idString : Configs.getCustomConfig3().getConfigurationSection("locations").getKeys(false)){
-                Location leftCorner = convertStringToLocation(Objects.requireNonNull(getCustomConfig3().getString("locations." + idString + ".lc")));
-                Location rightCorner = convertStringToLocation(Objects.requireNonNull(getCustomConfig3().getString("locations." + idString + ".rc")));
-                Location spawnLocation = convertStringToLocation(Objects.requireNonNull(getCustomConfig3().getString("locations." + idString + ".spawn")));
+                Location leftCorner = convertStringToLocation(getCustomConfig3().getString("locations." + idString + ".lc"));
+                Location rightCorner = convertStringToLocation(getCustomConfig3().getString("locations." + idString + ".rc"));
+                Location spawnLocation = convertStringToLocation(getCustomConfig3().getString("locations." + idString + ".spawn"));
 
                 TetrisSelection tetrisSelection = new TetrisSelection();
                 tetrisSelection.setLeftCorner(leftCorner);
                 tetrisSelection.setRightCorner(rightCorner);
 
                 TetrisBoard tetrisBoard = new TetrisBoard(Integer.parseInt(idString), tetrisSelection);
-                tetrisBoard.setSpawnLocation(spawnLocation);
+                if (spawnLocation != null)
+                 tetrisBoard.setSpawnLocation(spawnLocation);
 
                 tetrisBoards.put(tetrisBoard.getID(), tetrisBoard);
             }
@@ -101,7 +102,8 @@ public final class Entertainments extends JavaPlugin {
 
             Configs.getCustomConfig3().set("locations." + counter + ".lc", convertLocationToString(tetrisBoard.getLeftBottomCorner()));
             Configs.getCustomConfig3().set("locations." + counter + ".rc", convertLocationToString(tetrisBoard.getRightTopCorner()));
-            Configs.getCustomConfig3().set("locations." + counter + ".spawn", convertLocationToString(tetrisBoard.getSpawnLocation()));
+            if (tetrisBoard.getSpawnLocation() != null)
+                Configs.getCustomConfig3().set("locations." + counter + ".spawn", convertLocationToString(tetrisBoard.getSpawnLocation()));
 
             saveTetrisConfig();
             counter++;

@@ -105,13 +105,17 @@ public class TetrisBoard {
         }
         player.getInventory().clear();
 
-        ItemStack leftStick = createItemstack(Material.ARROW, "§7§l<", createLore("§6§l§m------", "§7Tool to change the position of the tetris block on the screen", "", "§7Usage:", "§fRight-Click §7To go to the left" ,"§6§l§m------"));
-        ItemStack goFaster = createItemstack(Material.STICK, "§6§lGo §eFaster", createLore("§6§l§m------", "§7Make the block go down faster", "", "§7Usage:", "§fRight-Click §8§lHOLD §7To make faster" ,"§6§l§m------"));
-        ItemStack rightStick = createItemstack(Material.ARROW, "§7§l>", createLore("§6§l§m------", "§7Tool to change the position of the tetris block on the screen", "", "§7Usage:", "§fRight-Click §7To go to the right" ,"§6§l§m------"));
+        ItemStack leftStick = createItemstack(Material.IRON_NUGGET, "§6GO LEFT", createLore("§6§l§m------", "§7Tool to change the position of the tetris block on the screen", "", "§7Usage:", "§fRight-Click §7To go to the left" ,"§6§l§m------"));
+        ItemStack goFaster = createItemstack(Material.IRON_INGOT, "§6§lGO DOWN", createLore("§6§l§m------", "§7Make the block go down faster", "", "§7Usage:", "§fRight-Click §8§lHOLD §7To make faster" ,"§6§l§m------"));
+        ItemStack rightStick = createItemstack(Material.GOLD_NUGGET, "§6GO RIGHT", createLore("§6§l§m------", "§7Tool to change the position of the tetris block on the screen", "", "§7Usage:", "§fRight-Click §7To go to the right" ,"§6§l§m------"));
+        ItemStack leftRotate = createItemstack(Material.GOLD_INGOT, "§6ROTATE LEFT", createLore("§6§l§m------", "§7Tool to change the position of the tetris block on the screen", "", "§7Usage:", "§fRight-Click §7To go to the right" ,"§6§l§m------"));
+        ItemStack rightRotate = createItemstack(Material.NETHERITE_INGOT, "§6ROTATE RIGHT", createLore("§6§l§m------", "§7Tool to change the position of the tetris block on the screen", "", "§7Usage:", "§fRight-Click §7To go to the right" ,"§6§l§m------"));
 
-        player.getInventory().setItem(3, leftStick);
-        player.getInventory().setItem(4, goFaster);
-        player.getInventory().setItem(5, rightStick);
+        player.getInventory().setItem(0, leftStick);
+        player.getInventory().setItem(1, goFaster);
+        player.getInventory().setItem(2, rightStick);
+        player.getInventory().setItem(3, leftRotate);
+        player.getInventory().setItem(4, rightRotate);
     }
     public void revertInventory(){
         for (int i : hostInventory.keySet()){
@@ -206,7 +210,7 @@ public class TetrisBoard {
             blockLoopTask = null;
         }
         Random r = new Random();
-        int randomTetrisIndex = r.nextInt(6);
+        int randomTetrisIndex = r.nextInt(7);
         currentBlock = palletHandler.getTetrisBlock(randomTetrisIndex);
         currentBlock.setCurrentVariant(0);
         currentBlock.setTetrisBoard(this);
