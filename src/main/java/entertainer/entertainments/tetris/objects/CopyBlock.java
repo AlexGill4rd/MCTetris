@@ -18,6 +18,12 @@ public class CopyBlock {
         this.material = material;
         this.blockData = blockData;
     }
+    public CopyBlock(int x, int y, Material material, BlockData blockData) {
+        this.x = x;
+        this.y = y;
+        this.material = material;
+        this.blockData = blockData;
+    }
 
     public int getX() {
         return x;
