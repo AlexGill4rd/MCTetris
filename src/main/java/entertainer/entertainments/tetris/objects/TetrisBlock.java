@@ -4,7 +4,6 @@ import entertainer.entertainments.Entertainments;
 import entertainer.entertainments.configuration.Configs;
 import entertainer.entertainments.tetris.enums.TetrisDirection;
 import entertainer.entertainments.tetris.events.TetrisBlockCollideEvent;
-import entertainer.entertainments.tetris.events.TetrisGameEndEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,7 +16,6 @@ import java.util.HashMap;
 import java.util.Objects;
 
 import static entertainer.entertainments.configuration.Configs.customConfigFile2;
-import static entertainer.entertainments.tetris.listeners.TetrisZoneSeletionListener.tetrisBoard;
 
 public class TetrisBlock {
 
@@ -27,6 +25,7 @@ public class TetrisBlock {
     private int currentVariant = -1;
     private Location currentLocation;
     private Material material;
+    private TetrisBoard tetrisBoard;
 
     private Entertainments plugin = Entertainments.getPlugin(Entertainments.class);
 

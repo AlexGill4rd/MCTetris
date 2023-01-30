@@ -15,9 +15,9 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.UUID;
 
-import static entertainer.entertainments.Entertainments.palletHandler;
-import static entertainer.entertainments.Entertainments.wordGenerator;
+import static entertainer.entertainments.Entertainments.*;
 import static entertainer.entertainments.functions.Functions.createItemstack;
 import static entertainer.entertainments.functions.Functions.createLore;
 
@@ -44,8 +44,10 @@ public class TetrisBoard {
 
     public TetrisBlock currentBlock;
 
-    public TetrisBoard(Player host) {
+    public TetrisBoard(Player host, TetrisSelection tetrisSelection) {
         this.host = host;
+        this.setRightTopCorner(tetrisSelection.getRightCorner());
+        this.setLeftBottomCorner(tetrisSelection.getLeftCorner());
     }
 
     public void setHost(Player host) {
@@ -217,7 +219,7 @@ public class TetrisBoard {
         //Shuffle everything 3 to the bottom
         Location lineLocation = leftBottomCorner.clone().add(0, ((row+1)*3), 0);
         for (int x = 0; x < arenaWidth; x++) {
-            for (int y = 0; y < arenaHeight; y++) {
+            for (int y = 0; y < arenaHeight - ((row+1)*3); y++) {
                 for (int z = 0; z < 3; z++) {
                     Location blockLoc = lineLocation.clone().add(x, y, -z);
                     Location newBlockLoc = lineLocation.clone().add(x, y - 3, -z);
@@ -233,5 +235,8 @@ public class TetrisBoard {
             }
         }
         addLines(1);
+    }
+    public static TetrisBoard getPlayerTetrisboard(UUID uuid){
+        return tetrisBoards.get(uuid);
     }
 }

@@ -4,11 +4,16 @@ import entertainer.entertainments.groundlifter.listener.GroundLiftListener;
 import entertainer.entertainments.tetris.command.TetrisCommand;
 import entertainer.entertainments.tetris.listeners.*;
 import entertainer.entertainments.tetris.objects.PalletHandler;
+import entertainer.entertainments.tetris.objects.TetrisBoard;
 import entertainer.entertainments.tntbow.listeners.BowShootListener;
 import entertainer.entertainments.wordgenerator.WordGenerator;
 import entertainer.entertainments.wordgenerator.command.WordGeneratorCommand;
 import entertainer.entertainments.wordgenerator.listeners.WordsSelectionListener;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
 import static entertainer.entertainments.configuration.Configs.createCustomConfig1;
 import static entertainer.entertainments.configuration.Configs.createCustomConfig2;
@@ -19,6 +24,7 @@ public final class Entertainments extends JavaPlugin {
 
     public static WordGenerator wordGenerator = new WordGenerator();
     public static PalletHandler palletHandler;
+    public static HashMap<UUID, TetrisBoard> tetrisBoards = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -40,7 +46,6 @@ public final class Entertainments extends JavaPlugin {
         getCommand("tetris").setExecutor(new TetrisCommand());
 
         palletHandler = new PalletHandler();
-
 
         //Word generator
         getServer().getPluginManager().registerEvents(new WordsSelectionListener(), this);
