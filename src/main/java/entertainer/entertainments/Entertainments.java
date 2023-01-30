@@ -65,7 +65,9 @@ public final class Entertainments extends JavaPlugin {
             for (String idString : Configs.getCustomConfig3().getConfigurationSection("locations").getKeys(false)){
                 Location leftCorner = convertStringToLocation(getCustomConfig3().getString("locations." + idString + ".lc"));
                 Location rightCorner = convertStringToLocation(getCustomConfig3().getString("locations." + idString + ".rc"));
-                Location spawnLocation = convertStringToLocation(getCustomConfig3().getString("locations." + idString + ".spawn"));
+                Location spawnLocation = null;
+                if (getCustomConfig3().contains("locations." + idString + ".spawn"))
+                    spawnLocation = convertStringToLocation(getCustomConfig3().getString("locations." + idString + ".spawn"));
 
                 TetrisSelection tetrisSelection = new TetrisSelection();
                 tetrisSelection.setLeftCorner(leftCorner);
