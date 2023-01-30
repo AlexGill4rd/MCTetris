@@ -132,17 +132,6 @@ public class TetrisBoard {
 
     public void stop(){
         started = false;
-        if (player != null){
-            player.sendMessage("§6§l§m------------------------");
-            player.sendMessage("§eTotal score: §f" + getScore());
-            player.sendMessage("§eLines removed: §f" + getLines());
-            player.sendMessage("§eTime played: §f" + calculateTime((long) ((System.currentTimeMillis() - getStartTime()) / 1000f)));
-            player.sendMessage("§6§l§m------------------------");
-            activeGames.remove(player.getUniqueId());
-        }
-        setScore(0);
-        setLines(0);
-
         TetrisGameEndEvent event = new TetrisGameEndEvent(this);
         Bukkit.getPluginManager().callEvent(event);
     }
