@@ -57,9 +57,9 @@ public class WordGenerator {
                     CopyBlock copyBlock = letters.get(letter.getLetter()).getBlocks()[x][y];
                     if (copyBlock.getMaterial() == Material.AIR)continue;
 
-                    Configs.getCustomConfig4().set("letters." + String.valueOf(letter.getLetter()) + "." + String.valueOf(blockId) + ".c", x + "," + y);
-                    Configs.getCustomConfig4().set("letters." + String.valueOf(letter.getLetter()) + "." + String.valueOf(blockId) + ".m", copyBlock.getMaterial().name());
-                    Configs.getCustomConfig4().set("letters." + String.valueOf(letter.getLetter()) + "." + String.valueOf(blockId) + ".b", copyBlock.getBlockData().getAsString());
+                    Configs.getCustomConfig4().set("letters." + letter.getLetter() + "." + blockId + ".c", x + "," + y);
+                    Configs.getCustomConfig4().set("letters." + letter.getLetter() + "." + blockId + ".m", copyBlock.getMaterial().name());
+                    Configs.getCustomConfig4().set("letters." + letter.getLetter() + "." + blockId + ".b", copyBlock.getBlockData().getAsString());
 
                     blockId++;
                     saveLetterConfig();

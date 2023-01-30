@@ -2,6 +2,7 @@ package entertainer.entertainments.tetris.objects;
 
 import entertainer.entertainments.Entertainments;
 import entertainer.entertainments.configuration.Configs;
+import entertainer.entertainments.tetris.enums.RotateDirection;
 import entertainer.entertainments.tetris.enums.TetrisDirection;
 import entertainer.entertainments.tetris.events.TetrisBlockCollideEvent;
 import org.bukkit.Bukkit;
@@ -9,9 +10,9 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.entity.Player;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -283,14 +284,38 @@ public class TetrisBlock {
             }
         }
     }
-    public void rotateRight(){
-        this.removeTetrisBlock();
-        setCurrentVariant(currentVariant+1 > 3 ? 0 : currentVariant+1);
-        this.place();
-    }
-    public void rotateLeft(){
-        this.removeTetrisBlock();
-        setCurrentVariant(currentVariant-1 < 0 ? 3 : currentVariant-1);
-        this.place();
+    public void rotate(RotateDirection rotateDirection){
+        int variant = 0;
+        switch (rotateDirection){
+            case RIGHT:
+                variant = currentVariant+1 > 3 ? 0 : currentVariant+1;
+                break;
+            case LEFT:
+                variant = currentVariant-1 < 0 ? 3 : currentVariant-1;
+                break;
+        }
+        CopyBlock[][][] currentBlocks = variants.get(currentVariant);
+        CopyBlock[][][] newVariantBlocks = variants.get(variant);
+
+        boolean correct = true;
+        for(int x = 0; x < 12; x++) {
+            for(int y = 0; y < 12; y++) {
+                for(int z = 0; z < 3; z++) {
+                    if (currentBlocks[x][y][z] != null && newVariantBlocks[x][y][z] != null){
+                        continue;
+                    }
+                    Block block = currentLocation.clone().add(x, y, z).getBlock();
+                    if (newVariantBlocks[x][y][z] != null &&
+                            block.getType() != Material.AIR){
+                        correct = false;
+                    }
+                }
+            }
+        }
+        if (correct){
+            this.removeTetrisBlock();
+            setCurrentVariant(variant);
+            this.place();
+        }
     }
 }
