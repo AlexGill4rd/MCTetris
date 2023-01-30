@@ -10,9 +10,10 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
+import static entertainer.entertainments.Entertainments.palletHandler;
+
 public class PalletSelectListener implements Listener {
 
-    public static PalletHandler palletHandler;
 
     @EventHandler
     public void onSelectionClick(PlayerInteractEvent e){

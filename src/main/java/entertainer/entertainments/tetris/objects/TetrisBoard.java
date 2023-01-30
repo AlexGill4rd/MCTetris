@@ -16,10 +16,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import static entertainer.entertainments.Entertainments.palletHandler;
 import static entertainer.entertainments.Entertainments.wordGenerator;
 import static entertainer.entertainments.functions.Functions.createItemstack;
 import static entertainer.entertainments.functions.Functions.createLore;
-import static entertainer.entertainments.tetris.listeners.PalletSelectListener.palletHandler;
 
 public class TetrisBoard {
 
@@ -43,7 +43,6 @@ public class TetrisBoard {
     private TetrisBlock nextBlock;
 
     public TetrisBlock currentBlock;
-    private ArrayList<TetrisBlock> tetrisBlocks = new ArrayList<>();
 
     public TetrisBoard(Player host) {
         this.host = host;

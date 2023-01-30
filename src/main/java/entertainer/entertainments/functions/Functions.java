@@ -1,6 +1,9 @@
 package entertainer.entertainments.functions;
 
+import entertainer.entertainments.configuration.Configs;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -38,5 +41,19 @@ public class Functions {
         }
         list.add(sentence.toString().trim());
         return list;
+    }
+    public static boolean hasPerm(Player player, String permission){
+        if (player.hasPermission(permission)) return true;
+        player.sendMessage(getMessage("No Permissions").replace("<permission>", permission));
+        return false;
+    }
+    public static String getMessage(String path){
+        if (Configs.getCustomConfig1().contains(path)){
+            return color(Configs.getCustomConfig1().getString(path));
+        }
+        return "§cInvalid Message";
+    }
+    public static String color(String s){
+        return ChatColor.translateAlternateColorCodes('&', s);
     }
 }

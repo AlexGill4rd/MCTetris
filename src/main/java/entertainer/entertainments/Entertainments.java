@@ -3,21 +3,28 @@ package entertainer.entertainments;
 import entertainer.entertainments.groundlifter.listener.GroundLiftListener;
 import entertainer.entertainments.tetris.command.TetrisCommand;
 import entertainer.entertainments.tetris.listeners.*;
+import entertainer.entertainments.tetris.objects.PalletHandler;
 import entertainer.entertainments.tntbow.listeners.BowShootListener;
 import entertainer.entertainments.wordgenerator.WordGenerator;
 import entertainer.entertainments.wordgenerator.command.WordGeneratorCommand;
 import entertainer.entertainments.wordgenerator.listeners.WordsSelectionListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import static entertainer.entertainments.configuration.Configs.createCustomConfig1;
+import static entertainer.entertainments.configuration.Configs.createCustomConfig2;
+
 public final class Entertainments extends JavaPlugin {
 
     public static FeatureManager featureManager = new FeatureManager();
 
     public static WordGenerator wordGenerator = new WordGenerator();
+    public static PalletHandler palletHandler;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
+        createCustomConfig1();
+        createCustomConfig2();
 
         getServer().getPluginManager().registerEvents(new BowShootListener(), this);
         getServer().getPluginManager().registerEvents(new GroundLiftListener(), this);
@@ -32,6 +39,8 @@ public final class Entertainments extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new TetrisGameEndListener(), this);
         getCommand("tetris").setExecutor(new TetrisCommand());
 
+        palletHandler = new PalletHandler();
+
 
         //Word generator
         getServer().getPluginManager().registerEvents(new WordsSelectionListener(), this);
@@ -41,6 +50,8 @@ public final class Entertainments extends JavaPlugin {
         getCommand("tntbow").setExecutor(new FeatureCommand());
         getCommand("groundlifter").setExecutor(new FeatureCommand());
 
+        this.getConfig().options().copyDefaults(true);
+        saveDefaultConfig();
     }
 
     @Override
