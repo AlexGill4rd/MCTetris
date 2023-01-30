@@ -11,5 +11,8 @@ public class TetrisGameEndListener implements Listener {
         e.getTetrisBoard().blockLoopTask.cancel();
         e.getTetrisBoard().clearArea();
         e.getTetrisBoard().revertInventory();
+
+        if (e.getTetrisBoard().getPlayer() != null)
+            e.getTetrisBoard().getPlayer().teleport(e.getTetrisBoard().getPreviousPlayerLocation());
     }
 }

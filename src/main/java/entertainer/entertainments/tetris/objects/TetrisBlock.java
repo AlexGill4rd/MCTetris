@@ -24,8 +24,6 @@ public class TetrisBlock {
     private HashMap<Integer, CopyBlock[][][]> variants = new HashMap<>();
     private int currentVariant = -1;
     private Location currentLocation;
-    private Material material;
-    private TetrisBoard tetrisBoard;
 
     private Entertainments plugin = Entertainments.getPlugin(Entertainments.class);
 
@@ -55,7 +53,6 @@ public class TetrisBlock {
                         int x = Integer.parseInt(coords[0]);
                         int y = Integer.parseInt(coords[1]);
                         int z = Integer.parseInt(coords[2]);
-                        System.out.println(x + " | " + y + " | " + z);
 
                         Material material = Material.valueOf(Configs.getCustomConfig2().getString("blocks." + row + "." + variantNumber + "." + blockID + ".m"));
                         BlockData blockData = Bukkit.getServer().createBlockData(Objects.requireNonNull(Configs.getCustomConfig2().getString("blocks." + row + "." + variantNumber + "." + blockID + ".b")));
@@ -87,7 +84,7 @@ public class TetrisBlock {
                 }
             }
         }
-        tetrisBoard.getHost().sendMessage("§6Tetris pallet " + row + " saved to config!");
+        System.out.println("§6Tetris pallet " + row + " saved to config!");
     }
     private void saveTetrisConfig(){
         try {
@@ -120,8 +117,6 @@ public class TetrisBlock {
             for (int y = leftCorner.getBlockY(); y <= rightCorner.getBlockY(); y++) {
                 for (int x = leftCorner.getBlockX(); x <= rightCorner.getBlockX(); x++) {
                     for (int z = leftCorner.getBlockZ(); z >= rightCorner.getBlockZ(); z--) {
-                        if (leftCorner.getWorld().getBlockAt(x, y, z).getType() != Material.AIR)
-                            material = leftCorner.getWorld().getBlockAt(x, y, z).getType();
                         Block block = leftCorner.getWorld().getBlockAt(x, y, z);
                         CopyBlock copyBlock = new CopyBlock(x, y, z, block.getType(), block.getBlockData());
                         blocks[x - leftCorner.getBlockX()][y - leftCorner.getBlockY()][Math.abs(z) + leftCorner.getBlockZ()] = copyBlock;
@@ -253,6 +248,15 @@ public class TetrisBlock {
             }
         }
     }
+    private TetrisBoard tetrisBoard;
+
+    public void setTetrisBoard(TetrisBoard tetrisBoard) {
+        this.tetrisBoard = tetrisBoard;
+    }
+    public TetrisBoard getTetrisBoard() {
+        return tetrisBoard;
+    }
+
     public void move(TetrisDirection tetrisDirection, int amount) {
         if (canMove(tetrisDirection) && tetrisBoard.isStarted()){
             removeTetrisBlock();
@@ -269,9 +273,7 @@ public class TetrisBlock {
         }else {
             if (tetrisDirection == TetrisDirection.DOWN){
                 if (currentLocation.getBlockY() + getHeight() - 1 >= tetrisBoard.getRightTopCorner().getBlockY()){
-                    for (Player player : tetrisBoard.getPlayers())
-                        player.sendTitle("§4You lost!", "§7Tetris above maximum height!", 20, 40, 20);
-                    tetrisBoard.getHost().sendTitle("§4You lost!", "§7Tetris above maximum height!", 20, 40, 20);
+                    tetrisBoard.getPlayer().sendTitle("§4You lost!", "§7Tetris above maximum height!", 20, 40, 20);
                     removeTetrisBlock();
                     tetrisBoard.stop();
                 }else{

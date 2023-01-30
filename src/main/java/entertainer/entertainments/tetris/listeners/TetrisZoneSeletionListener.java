@@ -27,9 +27,11 @@ public class TetrisZoneSeletionListener implements Listener {
         if (e.getClickedBlock() == null ||
                 e.getClickedBlock().getType() == Material.AIR ||
                 player.getInventory().getItemInMainHand().getType() == Material.AIR ||
-                player.getInventory().getItemInMainHand().getItemMeta() == null || (e.getAction() != Action.RIGHT_CLICK_BLOCK || e.getAction() != Action.LEFT_CLICK_BLOCK) || e.getHand() == EquipmentSlot.OFF_HAND)return;
+                player.getInventory().getItemInMainHand().getItemMeta() == null || e.getHand() == EquipmentSlot.OFF_HAND)return;
 
         if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("§7§l- §6§lTetris §eZoner §7§l-")){
+            e.setCancelled(true);
+
             Location corner = e.getClickedBlock().getLocation();
             TetrisSelection tetrisSelection = selections.get(player.getUniqueId());
             if (tetrisSelection == null){
@@ -46,7 +48,8 @@ public class TetrisZoneSeletionListener implements Listener {
                 player.sendMessage("§6Right top corner set!");
             }
             if (tetrisSelection.getRightCorner() != null && tetrisSelection.getRightCorner() != null){
-                tetrisBoards.put(player.getUniqueId(), new TetrisBoard(player, tetrisSelection));
+                TetrisBoard tetrisBoard = new TetrisBoard(tetrisBoards.size(), tetrisSelection);
+                tetrisBoards.put(tetrisBoard.getID(), tetrisBoard);
                 player.sendMessage("§6All corners are set! Your tetris area is being made!");
             }
         }

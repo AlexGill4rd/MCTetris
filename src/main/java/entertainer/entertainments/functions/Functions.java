@@ -1,13 +1,13 @@
 package entertainer.entertainments.functions;
 
 import entertainer.entertainments.configuration.Configs;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class Functions {
 
@@ -55,5 +55,25 @@ public class Functions {
     }
     public static String color(String s){
         return ChatColor.translateAlternateColorCodes('&', s);
+    }
+    public static String calculateTime(long seconds) {
+        int day = (int) TimeUnit.SECONDS.toDays(seconds);
+        long hours = TimeUnit.SECONDS.toHours(seconds) - (day * 24L);
+        long minute = TimeUnit.SECONDS.toMinutes(seconds) - (TimeUnit.SECONDS.toHours(seconds) * 60);
+        long second = TimeUnit.SECONDS.toSeconds(seconds) - (TimeUnit.SECONDS.toMinutes(seconds) * 60);
+
+        return day + " d " + hours + " h " + minute + " m " + second + " s";
+    }
+    public static String convertLocationToString(Location location){
+        if (location == null)return null;
+        return location.getWorld().getName() + "," + (int) location.getX() + "," + (int) location.getY() + "," + (int) location.getZ() + "," + (int) location.getYaw() + "," + (int) location.getPitch();
+    }
+    public static Location convertStringToLocation(String stringLoc){
+        String[] args = stringLoc.split(",");
+        if (args.length == 6){
+            return new Location(Bukkit.getWorld(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]));
+        }else{
+            return null;
+        }
     }
 }

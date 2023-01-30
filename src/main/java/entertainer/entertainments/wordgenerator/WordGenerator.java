@@ -9,6 +9,7 @@ import java.util.HashMap;
 public class WordGenerator {
 
     private final HashMap<String, Letter> letters = new HashMap<>();
+    public boolean isConfigured = false;
 
     public WordGenerator() {
 
@@ -36,6 +37,7 @@ public class WordGenerator {
         }
     }
     public void initialiseWords(Location location){
+        isConfigured = true;
         //Start forming
         String letterList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:*,?/#<>+-=!|.";
 

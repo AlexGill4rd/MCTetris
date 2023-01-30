@@ -9,15 +9,20 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 
+import static entertainer.entertainments.Entertainments.activeGames;
+import static entertainer.entertainments.Entertainments.tetrisBoards;
+
 public class TetrisControllerListener implements Listener {
 
     @EventHandler
     public void onClick(PlayerItemHeldEvent e){
         Player player = e.getPlayer();
 
-        TetrisBoard tetrisBoard = TetrisBoard.getPlayerTetrisboard(player.getUniqueId());
 
-        if (tetrisBoard == null || !tetrisBoard.isStarted())return;
+
+        if (activeGames.get(player.getUniqueId()) == null)return;
+        TetrisBoard tetrisBoard = tetrisBoards.get(activeGames.get(player.getUniqueId()));
+
         e.setCancelled(true);
 
         if (e.getNewSlot() == 0)
@@ -34,13 +39,8 @@ public class TetrisControllerListener implements Listener {
     @EventHandler
     public void onInventoryInteract(InventoryClickEvent e){
         Player player = (Player) e.getWhoClicked();
-        if (player.getInventory().getItem(4) == null ||
-                player.getInventory().getItem(4).getType() == Material.AIR ||
-                player.getInventory().getItem(4).getItemMeta() == null)return;
 
-        if (player.getInventory().getItem(4).getItemMeta().getDisplayName().equals("§6§lGo §eFaster")){
+        if (activeGames.get(player.getUniqueId()) != null)
             e.setCancelled(true);
-        }
     }
-
 }
