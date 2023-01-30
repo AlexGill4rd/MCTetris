@@ -39,6 +39,10 @@ public class TetrisCommand implements CommandExecutor {
                     }
                 }else if (args[0].equalsIgnoreCase("start")){
                     if (player.hasPermission("tetris.start")){
+                        if (tetrisBoard == null){
+                            player.sendMessage("§cPlease make a tetris screen first woth the tool before starting a game!");
+                            return true;
+                        }
                         if (tetrisBoard.start()){
                             player.sendMessage("§6The game has started!");
                         }
