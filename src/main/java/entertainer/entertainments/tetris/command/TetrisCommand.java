@@ -1,5 +1,7 @@
 package entertainer.entertainments.tetris.command;
 
+import entertainer.entertainments.tetris.inventories.Inventories;
+import entertainer.entertainments.tetris.objects.TetrisBoard;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -8,8 +10,10 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
+import static entertainer.entertainments.Entertainments.activeGames;
+import static entertainer.entertainments.Entertainments.tetrisBoards;
 import static entertainer.entertainments.functions.Functions.createItemstack;
-import static entertainer.entertainments.tetris.listeners.TetrisZoneSeletionListener.tetrisBoard;
+import static entertainer.entertainments.functions.Functions.hasPerm;
 
 public class TetrisCommand implements CommandExecutor {
 
@@ -21,50 +25,58 @@ public class TetrisCommand implements CommandExecutor {
             Player player = (Player) sender;
 
             if (args.length == 0){
-                if (player.hasPermission("tetris.help")){
-                    player.sendMessage("§6/tetris §7selection       §8Start with selecting a tetris board");
-                    player.sendMessage("§6/tetris §7placer          §8Get a tetris block placer");
-                    player.sendMessage("§6/tetris §7start           §8Start the tetris game");
-                    player.sendMessage("§6/tetris §7clear           §8Clear het bord");
-                    player.sendMessage("§6/tetris §7stop            §8Stop de game");
+                if (hasPerm(player,"tetris.help")){
+                    player.sendMessage("§6/tetris §7tool                        §8Start with selecting a tetris board");
+                    player.sendMessage("§6/tetris §7placer                      §8Get a tetris block placer");
+                    player.sendMessage("§6/tetris §7find                        §8Start the tetris game");
+                    player.sendMessage("§6/tetris §7clear <id>                  §8Clear het bord");
+                    player.sendMessage("§6/tetris §7stop <id>                   §8Stop de game");
+                    player.sendMessage("§6/tetris §7setspawn <id>               §8Set the spawnpoint for  the tetris game");
                 }
             }else if (args.length == 1){
-                if (args[0].equalsIgnoreCase("selection")){
-                    if (player.hasPermission("tetris.selection")){
+                if (args[0].equalsIgnoreCase("tool")){
+                    if (hasPerm(player, "tetris.tool")){
                         ArrayList<String> lore = new ArrayList<>();
                         lore.add("§8§l---------");
                         lore.add("§6Tool for selecting the tetris area");
                         player.getInventory().addItem(createItemstack(Material.DIAMOND_AXE, "§7§l- §6§lTetris §eZoner §7§l-", lore));
                         player.sendMessage("§6A tool has been added to your inventory! Please select the area! §4Left bottom corner first!");
                     }
-                }else if (args[0].equalsIgnoreCase("start")){
-                    if (player.hasPermission("tetris.start")){
-                        if (tetrisBoard == null){
-                            player.sendMessage("§cPlease make a tetris screen first with the tool before starting a game!");
+                }else if (args[0].equalsIgnoreCase("find")){
+                    if (hasPerm(player,"tetris.find")){
+                        if (activeGames.get(player.getUniqueId()) != null){
+                            player.sendMessage("§cYou can't play multiple games at once!");
                             return true;
                         }
-                        if (tetrisBoard.start()){
-                            player.sendMessage("§6The game has started!");
-                        }
+                        player.openInventory(Inventories.tetrisFinder());
                     }
-                }else if (args[0].equalsIgnoreCase("clear")){
-                    if (player.hasPermission("tetris.clear")){
-                        if (tetrisBoard == null){
-                            player.sendMessage("§cPlease make a tetris screen before trying to clear it!");
-                            return true;
-                        }
+                }
+            }else if (args.length == 2){
+                if (args[0].equalsIgnoreCase("clear")){
+                    if (hasPerm(player,"tetris.clear")){
+                        int tetrisID = Integer.parseInt(args[1]);
+                        TetrisBoard tetrisBoard = tetrisBoards.get(tetrisID);
                         tetrisBoard.clearArea();
                     }
                 }else if (args[0].equalsIgnoreCase("stop")){
-                    if (player.hasPermission("tetris.stop")){
-                        if (tetrisBoard == null){
-                            player.sendMessage("§cPlease make a tetris screen before trying  to stop the never started game!");
-                            return true;
-                        }
-                        for (Player target : tetrisBoard.getPlayers())
-                            target.sendTitle("§4Game Ended!", "§7The game has ended!", 20, 40, 20);
-                        tetrisBoard.getHost().sendTitle("§4Game Ended!", "§7The game has ended!", 20, 40, 20);
+                    if (hasPerm(player,"tetris.stop")){
+                        int tetrisID = Integer.parseInt(args[1]);
+                        TetrisBoard tetrisBoard = tetrisBoards.get(tetrisID);
+
+                        tetrisBoard.getPlayer().sendTitle("§4Game Ended!", "§7The game was forcefully ended!", 20, 40, 20);
+
                         tetrisBoard.stop();
+                    }
+                }else if (args[0].equalsIgnoreCase("setspawn")){
+                    if (hasPerm(player,"tetris.setspawn")){
+                        int tetrisID = Integer.parseInt(args[1]);
+                        TetrisBoard tetrisBoard = tetrisBoards.get(tetrisID);
+                        if (tetrisBoard != null){
+                            tetrisBoard.setSpawnLocation(player.getLocation());
+                            player.sendMessage("§6You have set the spawnpoint for this tetris game!");
+                        }else{
+                            player.sendMessage("§cInvalid tetris game id!");
+                        }
                     }
                 }
             }

@@ -1,22 +1,22 @@
 package entertainer.entertainments.wordgenerator.handlers;
 
-import org.bukkit.block.Block;
+import entertainer.entertainments.tetris.objects.CopyBlock;
 
 public class Letter {
 
-    private Block[][] blocks;
+    private CopyBlock[][] blocks;
     private String letter;
 
-    public Letter(Block[][] blocks, String letter) {
+    public Letter(CopyBlock[][] blocks, String letter) {
         this.blocks = blocks;
         this.letter = letter;
     }
 
-    public Block[][] getBlocks() {
+    public CopyBlock[][] getBlocks() {
         return blocks;
     }
 
-    public void setBlocks(Block[][] blocks) {
+    public void setBlocks(CopyBlock[][] blocks) {
         this.blocks = blocks;
     }
 
