@@ -2,9 +2,7 @@ package entertainer.entertainments.tetris.listeners;
 
 import entertainer.entertainments.tetris.objects.PalletHandler;
 import entertainer.entertainments.tetris.objects.TetrisBlock;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,7 +10,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-import static entertainer.entertainments.tetris.listeners.PalletSelectListener.palletHandler;
+import static entertainer.entertainments.Entertainments.palletHandler;
 
 public class TetrisBlockPlacer implements Listener {
 

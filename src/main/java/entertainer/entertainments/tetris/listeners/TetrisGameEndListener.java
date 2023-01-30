@@ -8,6 +8,7 @@ public class TetrisGameEndListener implements Listener {
 
     @EventHandler
     public void onTetrisEnd(TetrisGameEndEvent e){
+        e.getTetrisBoard().blockLoopTask.cancel();
         e.getTetrisBoard().clearArea();
         e.getTetrisBoard().revertInventory();
     }

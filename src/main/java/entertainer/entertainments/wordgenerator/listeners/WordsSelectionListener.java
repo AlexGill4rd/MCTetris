@@ -1,6 +1,5 @@
-package entertainer.entertainments.tetris.listeners;
+package entertainer.entertainments.wordgenerator.listeners;
 
-import entertainer.entertainments.tetris.objects.PalletHandler;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -10,13 +9,12 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-import static entertainer.entertainments.Entertainments.palletHandler;
+import static entertainer.entertainments.Entertainments.wordGenerator;
 
-public class PalletSelectListener implements Listener {
-
+public class WordsSelectionListener implements Listener {
 
     @EventHandler
-    public void onSelectionClick(PlayerInteractEvent e){
+    public void onSelection(PlayerInteractEvent e){
 
         Player player = e.getPlayer();
         if (e.getClickedBlock() == null ||
@@ -24,10 +22,11 @@ public class PalletSelectListener implements Listener {
                 player.getInventory().getItemInMainHand().getType() == Material.AIR ||
                 player.getInventory().getItemInMainHand().getItemMeta() == null || e.getAction() != Action.RIGHT_CLICK_BLOCK || e.getHand() == EquipmentSlot.OFF_HAND)return;
 
-        if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase("tetris selector")){
-            Location rightForwardCorner = e.getClickedBlock().getLocation();
-            palletHandler = new PalletHandler(rightForwardCorner);
-            player.sendMessage("§6You have made the pallet for tetris!");
+        if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("§7§l- §6§lWord §eZoner §7§l-")){
+            Location corner = e.getClickedBlock().getLocation();
+            wordGenerator.initialiseWords(corner);
+
+            player.sendMessage("§6You have set the words pallet!");
         }
     }
 }

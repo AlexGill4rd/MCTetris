@@ -39,16 +39,28 @@ public class TetrisCommand implements CommandExecutor {
                     }
                 }else if (args[0].equalsIgnoreCase("start")){
                     if (player.hasPermission("tetris.start")){
+                        if (tetrisBoard == null){
+                            player.sendMessage("§cPlease make a tetris screen first with the tool before starting a game!");
+                            return true;
+                        }
                         if (tetrisBoard.start()){
                             player.sendMessage("§6The game has started!");
                         }
                     }
                 }else if (args[0].equalsIgnoreCase("clear")){
                     if (player.hasPermission("tetris.clear")){
+                        if (tetrisBoard == null){
+                            player.sendMessage("§cPlease make a tetris screen before trying to clear it!");
+                            return true;
+                        }
                         tetrisBoard.clearArea();
                     }
                 }else if (args[0].equalsIgnoreCase("stop")){
                     if (player.hasPermission("tetris.stop")){
+                        if (tetrisBoard == null){
+                            player.sendMessage("§cPlease make a tetris screen before trying  to stop the never started game!");
+                            return true;
+                        }
                         for (Player target : tetrisBoard.getPlayers())
                             target.sendTitle("§4Game Ended!", "§7The game has ended!", 20, 40, 20);
                         tetrisBoard.getHost().sendTitle("§4Game Ended!", "§7The game has ended!", 20, 40, 20);
