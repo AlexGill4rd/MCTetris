@@ -29,7 +29,7 @@ public final class Entertainments extends JavaPlugin {
 
     public static FeatureManager featureManager = new FeatureManager();
 
-    public static WordGenerator wordGenerator = new WordGenerator();
+    public static WordGenerator wordGenerator;
     public static PalletHandler palletHandler;
     public static HashMap<Integer, TetrisBoard> tetrisBoards = new HashMap<>();
     //The integer is the ID for the board
@@ -41,6 +41,7 @@ public final class Entertainments extends JavaPlugin {
         createCustomConfig1();
         createCustomConfig2();
         createCustomConfig3();
+        createCustomConfig4();
 
         getServer().getPluginManager().registerEvents(new BowShootListener(), this);
         getServer().getPluginManager().registerEvents(new GroundLiftListener(), this);
@@ -57,6 +58,7 @@ public final class Entertainments extends JavaPlugin {
         getCommand("tetris").setExecutor(new TetrisCommand());
 
         palletHandler = new PalletHandler();
+        wordGenerator = new WordGenerator();
 
         //Load all tetris boards
         if (Configs.getCustomConfig3().contains("locations")){

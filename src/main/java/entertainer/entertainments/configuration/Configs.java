@@ -79,4 +79,26 @@ public class Configs {
             e.printStackTrace();
         }
     }
+    public static File customConfigFile4;
+    private static FileConfiguration customConfig4;
+
+    public static FileConfiguration getCustomConfig4() {
+        return customConfig4;
+    }
+
+    public static void createCustomConfig4() {
+        customConfigFile4 = new File(plugin.getDataFolder(), "LetterData.yml");
+        if (!customConfigFile4.exists()) {
+            customConfigFile4.getParentFile().mkdirs();
+            plugin.saveResource("LetterData.yml", false);
+        }
+
+        customConfig4 = new YamlConfiguration();
+
+        try {
+            customConfig4.load(customConfigFile4);
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
 }

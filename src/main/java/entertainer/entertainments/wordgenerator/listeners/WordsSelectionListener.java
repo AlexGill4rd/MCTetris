@@ -1,5 +1,7 @@
 package entertainer.entertainments.wordgenerator.listeners;
 
+import entertainer.entertainments.Entertainments;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -13,6 +15,8 @@ import static entertainer.entertainments.Entertainments.wordGenerator;
 
 public class WordsSelectionListener implements Listener {
 
+    private Entertainments plugin = Entertainments.getPlugin(Entertainments.class);
+
     @EventHandler
     public void onSelection(PlayerInteractEvent e){
 
@@ -24,9 +28,13 @@ public class WordsSelectionListener implements Listener {
 
         if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals("§7§l- §6§lWord §eZoner §7§l-")){
             Location corner = e.getClickedBlock().getLocation();
-            wordGenerator.initialiseWords(corner);
-
-            player.sendMessage("§6You have set the words pallet!");
+            player.sendMessage("§eStarted with initialising words!");
+            Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    wordGenerator.initialiseWords(corner);
+                }
+            });
         }
     }
 }
