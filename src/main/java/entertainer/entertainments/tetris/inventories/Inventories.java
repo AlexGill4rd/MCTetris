@@ -31,7 +31,7 @@ public class Inventories {
                                 "",
                                 "§fInformation:",
                                 "§7Current Player: " + tetrisBoard.getPlayer().getDisplayName(),
-                                "§7Start Delay: " + tetrisBoard.getStartTime(),
+                                "§7Start Delay: " + tetrisBoard.getStartDelay(),
                                 "§7Block Speed: " + tetrisBoard.getBlockSpeed(),
                                 "§7§l§m----"));
             }else if (tetrisBoard.getSpawnLocation() == null ||
@@ -43,7 +43,7 @@ public class Inventories {
                                 "§6This game can't start because the tetris game is not correctly configured!",
                                 "",
                                 "§fInformation:",
-                                "§7Start Delay: " + tetrisBoard.getStartTime(),
+                                "§7Start Delay: " + tetrisBoard.getStartDelay(),
                                 "§7Block Speed: " + tetrisBoard.getBlockSpeed(),
                                 "§7§l§m----"));
             } else{
@@ -52,7 +52,7 @@ public class Inventories {
                                 "§6Click on the item to go to the game. When clicked, the game wil automatically start after " + tetrisBoard.getStartDelay() + " seconds!",
                                 "",
                                 "§fInformation:",
-                                "§7Start Delay: " + tetrisBoard.getStartTime(),
+                                "§7Start Delay: " + tetrisBoard.getStartDelay(),
                                 "§7Block Speed: " + tetrisBoard.getBlockSpeed(),
                                 "§7§l§m----"));
             }
