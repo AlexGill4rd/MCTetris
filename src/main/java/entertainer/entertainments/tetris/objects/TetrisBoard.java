@@ -186,11 +186,12 @@ public class TetrisBoard {
             }
         }
         //Shuffle everything 3 to the bottom
+        Location lineLocation = leftBottomCorner.clone().add(0, ((row+1)*3), 0);
         for (int x = 0; x < arenaWidth; x++) {
             for (int y = 0; y < arenaHeight; y++) {
                 for (int z = 0; z < 3; z++) {
-                    Location blockLoc = leftBottomCorner.clone().add(x, y, -z);
-                    Location newBlockLoc = leftBottomCorner.clone().add(x, y - 3, -z);
+                    Location blockLoc = lineLocation.clone().add(x, y, -z);
+                    Location newBlockLoc = lineLocation.clone().add(x, y - 3, -z);
                     Block block = blockLoc.getBlock();
 
                     if (block.getType() == Material.AIR) continue;

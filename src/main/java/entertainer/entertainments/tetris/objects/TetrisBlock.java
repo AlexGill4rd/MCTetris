@@ -127,14 +127,17 @@ public class TetrisBlock {
         switch (tetrisDirection){
             case DOWN:
                 for(int x = 0; x < getWidth(); x++) {
-                    for(int z = 0; z < 3; z++) {
-                        Location newLoc1 = currentLocation.clone().add(x, 0, z);
-                        Location newLoc2 = currentLocation.clone().add(x, -1, z);
+                    for(int y = 0; y < getHeight(); y++) {
+                        for(int z = 0; z < 3; z++) {
+                            Location newLoc1 = currentLocation.clone().add(x, 0, z);
+                            Location newLoc2 = currentLocation.clone().add(x, -1, z);
 
-                        if (newLoc1.getBlock().getType() != Material.AIR && newLoc2.getBlock().getType() != Material.AIR){
-                            return false;
+                            if (newLoc1.getBlock().getType() != Material.AIR && newLoc2.getBlock().getType() != Material.AIR){
+                                return false;
+                            }
                         }
                     }
+
                 }
                 break;
             case RIGHT:
