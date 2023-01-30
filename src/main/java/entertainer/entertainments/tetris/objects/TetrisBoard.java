@@ -86,6 +86,7 @@ public class TetrisBoard {
     }
     private HashMap<Integer, ItemStack> hostInventory = new HashMap<>();
     public void showControls(){
+        host.getInventory().setHeldItemSlot(8);
         hostInventory.clear();
         for (int i = 0; i < host.getInventory().getSize(); i++){
             ItemStack itemStack = host.getInventory().getItem(i);
