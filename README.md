@@ -37,7 +37,7 @@ Therefore, a list that is somewhat larger than all the other features.
 ![image](https://user-images.githubusercontent.com/57497005/215855458-1e05274c-4149-490f-9cd2-113de1fd0610.png)
 
 #### Custom Block Pallet
-![image](https://user-images.githubusercontent.com/57497005/215855598-02d4f050-7a23-47e5-a02d-07c051b3f68b.png)
+![2023-01-31_23 53 23](https://user-images.githubusercontent.com/57497005/215902268-b5c17426-8612-4946-9259-454d674e8b52.png)
 
 #### Custom word generator
 ![image](https://user-images.githubusercontent.com/57497005/215855753-9760a5f1-cdc8-4eab-851f-3880afbbb5cd.png)
