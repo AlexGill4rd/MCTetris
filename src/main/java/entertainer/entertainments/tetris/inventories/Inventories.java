@@ -2,7 +2,9 @@ package entertainer.entertainments.tetris.inventories;
 
 import entertainer.entertainments.functions.ItemManager;
 import entertainer.entertainments.tetris.objects.TetrisBoard;
+import entertainer.entertainments.tetris.objects.TetrisGame;
 import entertainer.entertainments.tetris.objects.TetrisPlayer;
+import entertainer.entertainments.tetris.objects.TetrisStats;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
@@ -18,29 +20,49 @@ public class Inventories {
     public static Inventory playerStats(TetrisPlayer tetrisPlayer){
         Inventory inventory = Bukkit.createInventory(null, 9, "§8§l|       §6Tetris Player Stats       §8§l|");
 
-        ItemStack head = createHead(tetrisPlayer.getPlayer(), "§7§l- §6§l" + tetrisPlayer.getPlayer().getName() + " §7§l-", createLore(
-                "§8§l§m----",
-                "§7Last game score: §f" + tetrisPlayer.getLastScore(),
-                "§7Last game duration: §f" + calculateTime((long) ((System.currentTimeMillis() - tetrisPlayer.getLastGameDuration()) / 1000f)),
-                "§7Last games lines: §f" + tetrisPlayer.getLastLines(),
-                "",
-                "§cNote!",
-                "§7Al the above data wil change when you play a new game! This are changing results.",
-                "§8§l§m----"
-        ));
-        ItemStack totalScore = createItemstack(Material.PAPER, "§7§l- §6§lTotal Score §f" + tetrisPlayer.getTotalScore() + " §7§l-", createLore(
+        TetrisStats tetrisStats = tetrisPlayer.getTetrisStats();
+        TetrisGame lastGame = tetrisPlayer.getTetrisStats().getLastGame();
+        ItemStack head;
+        if (lastGame != null){
+            head = createHead(tetrisPlayer.getPlayer(), "§7§l- §6§l" + tetrisPlayer.getPlayer().getName() + " §7§l-", createLore(
+                    "§8§l§m----",
+                    "§7Last game score: §f" + lastGame.getScore(),
+                    "§7Last game duration: §f" + calculateTime((long) (lastGame.getDuration() / 1000f)),
+                    "§7Last games lines: §f" + lastGame.getLines(),
+                    "§7Last games date: §f" + lastGame.getDate().toLocaleString(),
+                    "",
+                    "§cNote!",
+                    "§7Al the above data wil change when you play a new game! This are changing results.",
+                    "",
+                    "§7Total games duration: §f" + calculateTime((long) (tetrisStats.getTotalGamesDuration() / 1000f)),
+                    "§8§l§m----"
+            ));
+        }else{
+            head = createHead(tetrisPlayer.getPlayer(), "§7§l- §6§l" + tetrisPlayer.getPlayer().getName() + " §7§l-", createLore(
+                    "§8§l§m----",
+                    "§7Last game score: §cnot played",
+                    "§7Last game duration: §cnot played",
+                    "§7Last games lines: §cnot played",
+                    "",
+                    "§cNote!",
+                    "§7Al the above data wil change when you play a new game! This are changing results.",
+                    "§8§l§m----"
+            ));
+        }
+
+        ItemStack totalScore = createItemstack(Material.PAPER, "§7§l- §6§lTotal Score §f" + tetrisStats.getTotalScore() + " §7§l-", createLore(
                 "§8§l§m----",
                 "§7In the name of this item you can see how much you have achieved in total over your entire playing experience.",
                 "§8§l§m----"
         ));
-        ItemStack totalLines = createItemstack(Material.PAPER, "§7§l- §6§lTotal Lines §f" + tetrisPlayer.getTotalLines() + " §7§l-", createLore(
+        ItemStack totalLines = createItemstack(Material.PAPER, "§7§l- §6§lTotal Lines §f" + tetrisStats.getTotalLines() + " §7§l-", createLore(
                 "§8§l§m----",
                 "§7At the top you can see how many horizontal lines of tetris have already been cleared by you.",
                 "§8§l§m----"
         ));
         ItemStack totalPlayTime = createItemstack(Material.PAPER, "§7§l- §6§lPlaytime §7§l-", createLore(
                 "§8§l§m----",
-                "§7Current Playtime: §f" + calculateTime(tetrisPlayer.getPlayer().getStatistic(Statistic.PLAY_ONE_MINUTE) * 60L),
+                "§7Current Playtime: §f" + calculateTime(tetrisPlayer.getPlayer().getStatistic(Statistic.PLAY_ONE_MINUTE)/20),
                 "§8§l§m----"
         ));
         inventory.setItem(2, head);

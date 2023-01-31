@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.util.Date;
 import java.util.Random;
 
 import static entertainer.entertainments.Entertainments.activeGames;
@@ -28,19 +29,19 @@ public class TetrisGameEndListener implements Listener {
             player.sendMessage("§6§l§m------------------------");
             activeGames.remove(player.getUniqueId());
         }
-        tetrisPlayer.setLastScore(tetrisBoard.getScore());
-        tetrisPlayer.setLastGameDuration(tetrisBoard.getStartTime());
-        tetrisPlayer.setLastLines(tetrisBoard.getLines());
+        e.getTetrisBoard().getTetrisGame().setDuration(System.currentTimeMillis() - tetrisBoard.getStartTime());
+        tetrisPlayer.getTetrisStats().addTetrisGame(e.getTetrisBoard().getTetrisGame());
+
         tetrisBoard.setScore(0);
         tetrisBoard.setLines(0);
         tetrisBoard.setStartTime(0);
+        tetrisBoard.setTetrisGame(null);
 
-
-        e.getTetrisBoard().blockLoopTask.cancel();
-        e.getTetrisBoard().clearArea();
-        e.getTetrisBoard().revertInventory();
+        tetrisBoard.blockLoopTask.cancel();
+        tetrisBoard.clearArea();
+        tetrisBoard.revertInventory();
 
         if (player != null)
-            e.getTetrisBoard().getPlayer().teleport(e.getTetrisBoard().getPreviousPlayerLocation());
+            tetrisBoard.getPlayer().teleport(tetrisBoard.getPreviousPlayerLocation());
     }
 }

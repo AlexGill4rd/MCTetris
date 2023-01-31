@@ -95,7 +95,6 @@ public final class Entertainments extends JavaPlugin {
 
         for (Player player : Bukkit.getOnlinePlayers()){
             TetrisPlayer tetrisPlayer = new TetrisPlayer(player);
-            tetrisPlayer.initialise();
             tetrisPlayers.put(player.getUniqueId(), tetrisPlayer);
         }
 
@@ -123,7 +122,7 @@ public final class Entertainments extends JavaPlugin {
         for (Player player : Bukkit.getOnlinePlayers()){
             TetrisPlayer tetrisPlayer = tetrisPlayers.get(player.getUniqueId());
             if (tetrisPlayer != null)
-                tetrisPlayer.savePlayerData();
+                tetrisPlayer.getTetrisStats().saveStats();
         }
     }
     private void saveTetrisConfig(){

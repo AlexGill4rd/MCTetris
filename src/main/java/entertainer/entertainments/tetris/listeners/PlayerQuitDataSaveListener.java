@@ -14,7 +14,7 @@ public class PlayerQuitDataSaveListener implements Listener {
 
         TetrisPlayer tetrisPlayer = tetrisPlayers.get(e.getPlayer().getUniqueId());
         if (tetrisPlayer != null)
-            tetrisPlayer.savePlayerData();
+            tetrisPlayer.getTetrisStats().saveStats();
 
     }
 }

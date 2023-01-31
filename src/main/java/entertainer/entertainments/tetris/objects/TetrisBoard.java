@@ -12,10 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 import static entertainer.entertainments.Entertainments.*;
 import static entertainer.entertainments.functions.Functions.*;
@@ -40,6 +37,7 @@ public class TetrisBoard {
 
     private Player player;
     private TetrisPlayer tetrisPlayer;
+    private TetrisGame tetrisGame;
 
     private TetrisBlock nextBlock;
 
@@ -56,7 +54,6 @@ public class TetrisBoard {
 
     public void setPlayer(Player player) {
         this.player = player;
-        tetrisPlayer = tetrisPlayers.get(player.getUniqueId());
     }
 
     public int getID() {
@@ -89,6 +86,9 @@ public class TetrisBoard {
         backgroundSound.play();
 
         this.player = player;
+        tetrisPlayer = tetrisPlayers.get(player.getUniqueId());
+        tetrisGame = new TetrisGame();
+
         activeGames.put(player.getUniqueId(), this.getID());
         previousPlayerLocation = player.getLocation().clone();
         player.teleport(spawnLocation);
@@ -99,6 +99,7 @@ public class TetrisBoard {
         started = true;
         //Start delay timer for game start
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            tetrisGame.setDate(new Date());
             startTime = System.currentTimeMillis();
             spawnTetrisBlock();
         }, (long) (20 * startDelay));
@@ -199,7 +200,7 @@ public class TetrisBoard {
         wordGenerator.writeWord(scoreLocation, scoreString);
     }
     public void addScore(int score) {
-        tetrisPlayer.addTotalScore(score);
+        tetrisGame.addScore(score);
         setScore(this.score + score);
     }
     public int getLines() {
@@ -213,8 +214,16 @@ public class TetrisBoard {
         wordGenerator.writeWord(scoreLocation, linesString);
     }
     public void addLines(int lines) {
-        tetrisPlayer.addTotalLines(lines);
+        tetrisGame.addLines(lines);
         setLines(this.lines + lines);
+    }
+
+    public TetrisGame getTetrisGame() {
+        return tetrisGame;
+    }
+
+    public void setTetrisGame(TetrisGame tetrisGame) {
+        this.tetrisGame = tetrisGame;
     }
 
     public boolean isStarted() {

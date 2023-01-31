@@ -17,7 +17,6 @@ public class PlayerInitJoinListener implements Listener {
         Player player = e.getPlayer();
 
         TetrisPlayer tetrisPlayer = new TetrisPlayer(player);
-        tetrisPlayer.initialise();
 
         tetrisPlayers.put(player.getUniqueId(), tetrisPlayer);
     }
