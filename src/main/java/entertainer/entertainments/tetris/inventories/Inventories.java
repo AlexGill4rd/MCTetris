@@ -67,7 +67,7 @@ public class Inventories {
                 "§7Current Playtime: §f" + calculateTime(tetrisPlayer.getPlayer().getStatistic(Statistic.PLAY_ONE_MINUTE)/20),
                 "§8§l§m----"
         ));
-        ItemStack history = createItemstack(Material.PAPER, "§7§l- §6§lLookup History §7§l-", createLore(
+        ItemStack history = createItemstack(Material.BOOK, "§7§l- §6§lLookup History §7§l-", createLore(
                 "§8§l§m----",
                 "§7Click to check your history of played tetris games",
                 "",
@@ -90,7 +90,8 @@ public class Inventories {
         TetrisStats tetrisStats = tetrisPlayer.getTetrisStats();
 
         int matchID = 0;
-        for (TetrisGame tetrisGame : tetrisStats.getTetrisGames()){
+        for (int i = tetrisStats.getTetrisGames().size() - 1; i > 0; i--){
+            TetrisGame tetrisGame = tetrisStats.getTetrisGames().get(i);
             if (matchID >= 54)break;
             ItemStack historyItem = createItemstack(Material.BOOK, "§7§l- §6" + tetrisGame.getDate().toLocaleString(), createLore(
                     "§8§l§m----",

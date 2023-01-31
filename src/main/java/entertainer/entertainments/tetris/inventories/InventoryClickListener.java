@@ -39,6 +39,8 @@ public class InventoryClickListener implements Listener {
             if (e.getCurrentItem().hasItemMeta() && e.getCurrentItem().getItemMeta().getDisplayName().equals("§7§l- §6§lLookup History §7§l-")){
                 player.openInventory(Inventories.historyMenu(tetrisPlayers.get(player.getUniqueId())));
             }
+        }else if (e.getView().getTitle().equals("§8§l|       §6Tetris History       §8§l|")){
+            e.setCancelled(true);
         }
     }
 }
