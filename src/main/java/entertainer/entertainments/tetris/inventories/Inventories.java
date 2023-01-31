@@ -53,6 +53,8 @@ public class Inventories {
         ItemStack totalScore = createItemstack(Material.PAPER, "§7§l- §6§lTotal Score §f" + tetrisStats.getTotalScore() + " §7§l-", createLore(
                 "§8§l§m----",
                 "§7In the name of this item you can see how much you have achieved in total over your entire playing experience.",
+                "",
+                "§7Highscore: §f" + tetrisStats.getHighscore(),
                 "§8§l§m----"
         ));
         ItemStack totalLines = createItemstack(Material.PAPER, "§7§l- §6§lTotal Lines §f" + tetrisStats.getTotalLines() + " §7§l-", createLore(
