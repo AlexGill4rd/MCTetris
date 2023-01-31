@@ -67,10 +67,43 @@ public class Inventories {
                 "§7Current Playtime: §f" + calculateTime(tetrisPlayer.getPlayer().getStatistic(Statistic.PLAY_ONE_MINUTE)/20),
                 "§8§l§m----"
         ));
-        inventory.setItem(2, head);
-        inventory.setItem(4, totalScore);
-        inventory.setItem(5, totalLines);
-        inventory.setItem(6, totalPlayTime);
+        ItemStack history = createItemstack(Material.PAPER, "§7§l- §6§lLookup History §7§l-", createLore(
+                "§8§l§m----",
+                "§7Click to check your history of played tetris games",
+                "",
+                "§7Matches Played: §f" + tetrisStats.getTetrisGames().size(),
+                "§8§l§m----"
+        ));
+        inventory.setItem(1, head);
+        inventory.setItem(3, totalScore);
+        inventory.setItem(4, totalLines);
+        inventory.setItem(5, totalPlayTime);
+        inventory.setItem(7, history);
+
+        fillInv(inventory, createItemstack(Material.BLACK_STAINED_GLASS_PANE, "", null));
+
+        return inventory;
+    }
+    public static Inventory historyMenu(TetrisPlayer tetrisPlayer){
+        Inventory inventory = Bukkit.createInventory(null, 54, "§8§l|       §6Tetris History       §8§l|");
+
+        TetrisStats tetrisStats = tetrisPlayer.getTetrisStats();
+
+        int matchID = 0;
+        for (TetrisGame tetrisGame : tetrisStats.getTetrisGames()){
+            if (matchID >= 54)break;
+            ItemStack historyItem = createItemstack(Material.BOOK, "§7§l- §6" + tetrisGame.getDate().toLocaleString(), createLore(
+                    "§8§l§m----",
+                    "§7Score: §f" + tetrisGame.getScore(),
+                    "§7Lines: §f" + tetrisGame.getLines(),
+                    "§7Duration: ",
+                    "§f" + calculateTime(tetrisGame.getDuration() / 1000L),
+                    "§7Date: §f" + tetrisGame.getDate(),
+                    "§8§l§m----"
+            ));
+            inventory.addItem(historyItem);
+            matchID++;
+        }
 
         fillInv(inventory, createItemstack(Material.BLACK_STAINED_GLASS_PANE, "", null));
 

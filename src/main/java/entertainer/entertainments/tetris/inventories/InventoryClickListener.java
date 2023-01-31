@@ -8,8 +8,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 
 import static entertainer.entertainments.Entertainments.tetrisBoards;
+import static entertainer.entertainments.Entertainments.tetrisPlayers;
 
 public class InventoryClickListener implements Listener {
 
@@ -29,9 +31,14 @@ public class InventoryClickListener implements Listener {
                     tetrisBoard.start(player);
                 }else
                     player.sendMessage("§cThis game has already began!");
+            }else if (e.getCurrentItem().getType() == Material.ARROW){
+                player.closeInventory();
             }
         }else if (e.getView().getTitle().equals("§8§l|       §6Tetris Player Stats       §8§l|")){
             e.setCancelled(true);
+            if (e.getCurrentItem().hasItemMeta() && e.getCurrentItem().getItemMeta().getDisplayName().equals("§7§l- §6§lLookup History §7§l-")){
+                player.openInventory(Inventories.historyMenu(tetrisPlayers.get(player.getUniqueId())));
+            }
         }
     }
 }
