@@ -39,6 +39,7 @@ public class TetrisBoard {
     private int blockSpeed = 10;
 
     private Player player;
+    private TetrisPlayer tetrisPlayer;
 
     private TetrisBlock nextBlock;
 
@@ -55,6 +56,7 @@ public class TetrisBoard {
 
     public void setPlayer(Player player) {
         this.player = player;
+        tetrisPlayer = tetrisPlayers.get(player.getUniqueId());
     }
 
     public int getID() {
@@ -142,6 +144,10 @@ public class TetrisBoard {
         return previousPlayerLocation;
     }
 
+    public TetrisPlayer getTetrisPlayer() {
+        return tetrisPlayer;
+    }
+
     public void stop(){
         started = false;
 
@@ -193,6 +199,7 @@ public class TetrisBoard {
         wordGenerator.writeWord(scoreLocation, scoreString);
     }
     public void addScore(int score) {
+        tetrisPlayer.addTotalScore(score);
         setScore(this.score + score);
     }
     public int getLines() {
@@ -206,6 +213,7 @@ public class TetrisBoard {
         wordGenerator.writeWord(scoreLocation, linesString);
     }
     public void addLines(int lines) {
+        tetrisPlayer.addTotalLines(lines);
         setLines(this.lines + lines);
     }
 

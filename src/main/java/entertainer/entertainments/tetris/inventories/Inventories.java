@@ -2,19 +2,56 @@ package entertainer.entertainments.tetris.inventories;
 
 import entertainer.entertainments.functions.ItemManager;
 import entertainer.entertainments.tetris.objects.TetrisBoard;
-import entertainer.entertainments.wordgenerator.WordGenerator;
-import io.github.bananapuncher714.nbteditor.NBTEditor;
+import entertainer.entertainments.tetris.objects.TetrisPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Statistic;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import static entertainer.entertainments.Entertainments.tetrisBoards;
 import static entertainer.entertainments.Entertainments.wordGenerator;
-import static entertainer.entertainments.functions.Functions.createItemstack;
-import static entertainer.entertainments.functions.Functions.createLore;
+import static entertainer.entertainments.functions.Functions.*;
 
 public class Inventories {
+
+    public static Inventory playerStats(TetrisPlayer tetrisPlayer){
+        Inventory inventory = Bukkit.createInventory(null, 9, "§8§l|       §6Tetris Player Stats       §8§l|");
+
+        ItemStack head = createHead(tetrisPlayer.getPlayer(), "§7§l- §6§l" + tetrisPlayer.getPlayer().getName() + " §7§l-", createLore(
+                "§8§l§m----",
+                "§7Last game score: §f" + tetrisPlayer.getLastScore(),
+                "§7Last game duration: §f" + calculateTime((long) ((System.currentTimeMillis() - tetrisPlayer.getLastGameDuration()) / 1000f)),
+                "§7Last games lines: §f" + tetrisPlayer.getLastLines(),
+                "",
+                "§cNote!",
+                "§7Al the above data wil change when you play a new game! This are changing results.",
+                "§8§l§m----"
+        ));
+        ItemStack totalScore = createItemstack(Material.PAPER, "§7§l- §6§lTotal Score §f" + tetrisPlayer.getTotalScore() + " §7§l-", createLore(
+                "§8§l§m----",
+                "§7In the name of this item you can see how much you have achieved in total over your entire playing experience.",
+                "§8§l§m----"
+        ));
+        ItemStack totalLines = createItemstack(Material.PAPER, "§7§l- §6§lTotal Lines §f" + tetrisPlayer.getTotalLines() + " §7§l-", createLore(
+                "§8§l§m----",
+                "§7At the top you can see how many horizontal lines of tetris have already been cleared by you.",
+                "§8§l§m----"
+        ));
+        ItemStack totalPlayTime = createItemstack(Material.PAPER, "§7§l- §6§lPlaytime §7§l-", createLore(
+                "§8§l§m----",
+                "§7Current Playtime: §f" + calculateTime(tetrisPlayer.getPlayer().getStatistic(Statistic.PLAY_ONE_MINUTE) * 60L),
+                "§8§l§m----"
+        ));
+        inventory.setItem(2, head);
+        inventory.setItem(4, totalScore);
+        inventory.setItem(5, totalLines);
+        inventory.setItem(6, totalPlayTime);
+
+        fillInv(inventory, createItemstack(Material.BLACK_STAINED_GLASS_PANE, "", null));
+
+        return inventory;
+    }
 
     public static Inventory tetrisFinder(){
         Inventory inventory = Bukkit.createInventory(null, 27, "§8§l|       §6Tetris finder       §8§l|");

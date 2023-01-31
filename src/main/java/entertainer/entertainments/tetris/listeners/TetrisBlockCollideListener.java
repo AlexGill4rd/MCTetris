@@ -1,7 +1,6 @@
 package entertainer.entertainments.tetris.listeners;
 
 import entertainer.entertainments.tetris.events.TetrisBlockCollideEvent;
-import entertainer.entertainments.tetris.objects.CopyBlock;
 import entertainer.entertainments.tetris.objects.Sound;
 import entertainer.entertainments.tetris.objects.TetrisBlock;
 import entertainer.entertainments.tetris.objects.TetrisBoard;

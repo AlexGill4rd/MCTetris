@@ -7,18 +7,19 @@ import entertainer.entertainments.tetris.inventories.InventoryClickListener;
 import entertainer.entertainments.tetris.listeners.*;
 import entertainer.entertainments.tetris.objects.PalletHandler;
 import entertainer.entertainments.tetris.objects.TetrisBoard;
+import entertainer.entertainments.tetris.objects.TetrisPlayer;
 import entertainer.entertainments.tetris.objects.TetrisSelection;
 import entertainer.entertainments.tntbow.listeners.BowShootListener;
 import entertainer.entertainments.wordgenerator.WordGenerator;
 import entertainer.entertainments.wordgenerator.command.WordGeneratorCommand;
 import entertainer.entertainments.wordgenerator.listeners.WordsSelectionListener;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.UUID;
 
 import static entertainer.entertainments.configuration.Configs.*;
@@ -32,6 +33,7 @@ public final class Entertainments extends JavaPlugin {
     public static WordGenerator wordGenerator;
     public static PalletHandler palletHandler;
     public static HashMap<Integer, TetrisBoard> tetrisBoards = new HashMap<>();
+    public static HashMap<UUID, TetrisPlayer> tetrisPlayers = new HashMap<>();
     //The integer is the ID for the board
     public static HashMap<UUID, Integer> activeGames = new HashMap<>();
 
@@ -42,6 +44,7 @@ public final class Entertainments extends JavaPlugin {
         createCustomConfig2();
         createCustomConfig3();
         createCustomConfig4();
+        createCustomConfig5();
 
         getServer().getPluginManager().registerEvents(new BowShootListener(), this);
         getServer().getPluginManager().registerEvents(new GroundLiftListener(), this);
@@ -55,6 +58,7 @@ public final class Entertainments extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new TetrisBlockCollideListener(), this);
         getServer().getPluginManager().registerEvents(new TetrisGameEndListener(), this);
         getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerInitJoinListener(), this);
         getCommand("tetris").setExecutor(new TetrisCommand());
 
         palletHandler = new PalletHandler();
@@ -89,6 +93,12 @@ public final class Entertainments extends JavaPlugin {
         getCommand("tntbow").setExecutor(new FeatureCommand());
         getCommand("groundlifter").setExecutor(new FeatureCommand());
 
+        for (Player player : Bukkit.getOnlinePlayers()){
+            TetrisPlayer tetrisPlayer = new TetrisPlayer(player);
+            tetrisPlayer.initialise();
+            tetrisPlayers.put(player.getUniqueId(), tetrisPlayer);
+        }
+
         this.getConfig().options().copyDefaults(true);
         saveDefaultConfig();
     }
@@ -109,6 +119,11 @@ public final class Entertainments extends JavaPlugin {
 
             saveTetrisConfig();
             counter++;
+        }
+        for (Player player : Bukkit.getOnlinePlayers()){
+            TetrisPlayer tetrisPlayer = tetrisPlayers.get(player.getUniqueId());
+            if (tetrisPlayer != null)
+                tetrisPlayer.savePlayerData();
         }
     }
     private void saveTetrisConfig(){

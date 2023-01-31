@@ -3,8 +3,10 @@ package entertainer.entertainments.functions;
 import entertainer.entertainments.configuration.Configs;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -18,6 +20,18 @@ public class Functions {
         if (lore != null)stack_meta.setLore(lore);
         stack.setItemMeta(stack_meta);
         return stack;
+    }
+    public static ItemStack createHead(OfflinePlayer target, String title, ArrayList<String> lore){
+        ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+
+        SkullMeta skull_meta = (SkullMeta) skull.getItemMeta();
+        assert skull_meta != null;
+        skull_meta.setOwningPlayer(Bukkit.getOfflinePlayer(target.getUniqueId()));
+        if (title != null) skull_meta.setDisplayName(title);
+        if (lore != null) skull_meta.setLore(lore);
+        skull.setItemMeta(skull_meta);
+
+        return skull;
     }
     public static ArrayList<String> createLore(String... args){
         ArrayList<String> lines = new ArrayList<>();
@@ -74,6 +88,14 @@ public class Functions {
             return new Location(Bukkit.getWorld(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]));
         }else{
             return null;
+        }
+    }
+    public static void fillInv(Inventory inventory, ItemStack itemStack){
+        for (int i = 0; i < inventory.getSize(); i++){
+            ItemStack current = inventory.getItem(i);
+            if (current == null || current.getType() == Material.AIR){
+                inventory.setItem(i, itemStack);
+            }
         }
     }
 }

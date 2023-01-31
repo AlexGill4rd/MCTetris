@@ -30,6 +30,8 @@ public class InventoryClickListener implements Listener {
                 }else
                     player.sendMessage("§cThis game has already began!");
             }
+        }else if (e.getView().getTitle().equals("§8§l|       §6Tetris Player Stats       §8§l|")){
+            e.setCancelled(true);
         }
     }
 }

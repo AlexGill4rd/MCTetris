@@ -3,6 +3,7 @@ package entertainer.entertainments.tetris.listeners;
 import entertainer.entertainments.tetris.events.TetrisGameEndEvent;
 import entertainer.entertainments.tetris.objects.Sound;
 import entertainer.entertainments.tetris.objects.TetrisBoard;
+import entertainer.entertainments.tetris.objects.TetrisPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,7 +19,7 @@ public class TetrisGameEndListener implements Listener {
     public void onTetrisEnd(TetrisGameEndEvent e){
         Player player = e.getTetrisBoard().getPlayer();
         TetrisBoard tetrisBoard = e.getTetrisBoard();
-
+        TetrisPlayer tetrisPlayer = tetrisBoard.getTetrisPlayer();
         if (player != null){
             player.sendMessage("§6§l§m------------------------");
             player.sendMessage("§eTotal score: §f" + tetrisBoard.getScore());
@@ -27,8 +28,12 @@ public class TetrisGameEndListener implements Listener {
             player.sendMessage("§6§l§m------------------------");
             activeGames.remove(player.getUniqueId());
         }
+        tetrisPlayer.setLastScore(tetrisBoard.getScore());
+        tetrisPlayer.setLastGameDuration(tetrisBoard.getStartTime());
+        tetrisPlayer.setLastLines(tetrisBoard.getLines());
         tetrisBoard.setScore(0);
         tetrisBoard.setLines(0);
+        tetrisBoard.setStartTime(0);
 
 
         e.getTetrisBoard().blockLoopTask.cancel();

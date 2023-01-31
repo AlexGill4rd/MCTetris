@@ -2,6 +2,7 @@ package entertainer.entertainments.tetris.command;
 
 import entertainer.entertainments.tetris.inventories.Inventories;
 import entertainer.entertainments.tetris.objects.TetrisBoard;
+import entertainer.entertainments.tetris.objects.TetrisPlayer;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,8 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-import static entertainer.entertainments.Entertainments.activeGames;
-import static entertainer.entertainments.Entertainments.tetrisBoards;
+import static entertainer.entertainments.Entertainments.*;
 import static entertainer.entertainments.functions.Functions.createItemstack;
 import static entertainer.entertainments.functions.Functions.hasPerm;
 
@@ -49,6 +49,14 @@ public class TetrisCommand implements CommandExecutor {
                             return true;
                         }
                         player.openInventory(Inventories.tetrisFinder());
+                    }
+                }else if (args[0].equalsIgnoreCase("stats")){
+                    if (hasPerm(player,"tetris.stats")){
+                        TetrisPlayer tetrisPlayer = tetrisPlayers.get(player.getUniqueId());
+                        if (tetrisPlayer == null)
+                            player.kickPlayer("§cAn error occured. Please rejoin for the error to be solved.");
+                        else
+                            player.openInventory(Inventories.playerStats(tetrisPlayer));
                     }
                 }
             }else if (args.length == 2){

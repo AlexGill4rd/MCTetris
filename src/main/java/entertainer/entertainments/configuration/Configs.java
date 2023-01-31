@@ -101,4 +101,26 @@ public class Configs {
             e.printStackTrace();
         }
     }
+    public static File customConfigFile5;
+    private static FileConfiguration customConfig5;
+
+    public static FileConfiguration getCustomConfig5() {
+        return customConfig5;
+    }
+
+    public static void createCustomConfig5() {
+        customConfigFile5 = new File(plugin.getDataFolder(), "PlayerData.yml");
+        if (!customConfigFile5.exists()) {
+            customConfigFile5.getParentFile().mkdirs();
+            plugin.saveResource("PlayerData.yml", false);
+        }
+
+        customConfig5 = new YamlConfiguration();
+
+        try {
+            customConfig5.load(customConfigFile5);
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
 }
