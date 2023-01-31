@@ -50,9 +50,11 @@ Therefore, a list that is somewhat larger than all the other features.
 
 #### Stats menu
 ![image](https://user-images.githubusercontent.com/57497005/215856524-b9fe7a01-cc55-4a0f-861f-c01b1cf1dffb.png)
-![image](https://user-images.githubusercontent.com/57497005/215856597-df010784-db20-449a-8c74-586b80c78596.png)
+![image](https://user-images.githubusercontent.com/57497005/215902559-5771bb3d-db91-46d3-b0fa-3d86c61891aa.png)
 ![image](https://user-images.githubusercontent.com/57497005/215856622-0054d73c-103a-4a9d-b570-8f49ffc69f36.png)
 ![image](https://user-images.githubusercontent.com/57497005/215856640-71b99208-93b1-4707-85f7-a1aa319eb7c9.png)
+![image](https://user-images.githubusercontent.com/57497005/215902602-3a64e7af-6074-4a9b-ab70-ec4978e5f272.png)
+![image](https://user-images.githubusercontent.com/57497005/215902631-04a638c4-f5d5-4fbe-b9b7-177d772fde49.png)
 
 As you see in this screenshot, the game was made in about 24hours. 2.5 Days of 12 hours work :D
 
