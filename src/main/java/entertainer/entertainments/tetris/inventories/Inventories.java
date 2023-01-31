@@ -25,7 +25,7 @@ public class Inventories {
 
             ItemStack itemStack;
             if (tetrisBoard.isStarted()){
-                itemStack = createItemstack(Material.RED_STAINED_GLASS_PANE, "§6Matchmaking: §e" + counter,
+                itemStack = createItemstack(Material.RED_STAINED_GLASS_PANE, "§4Matchmaking: §c" + counter,
                         createLore("§7§l§m----",
                                 "§6This game has already begun! Wait till the game is over!",
                                 "",
@@ -34,11 +34,12 @@ public class Inventories {
                                 "§7Start Delay: " + tetrisBoard.getStartDelay(),
                                 "§7Block Speed: " + tetrisBoard.getBlockSpeed(),
                                 "§7§l§m----"));
+                ItemManager.applyNBTTag(itemStack, "tetcustom", "playing");
             }else if (tetrisBoard.getSpawnLocation() == null ||
                     tetrisBoard.getRightTopCorner() == null ||
                     tetrisBoard.getLeftBottomCorner() == null ||
                     !wordGenerator.isConfigured){
-                itemStack = createItemstack(Material.ORANGE_STAINED_GLASS_PANE, "§6Matchmaking: §e" + counter,
+                itemStack = createItemstack(Material.ORANGE_STAINED_GLASS_PANE, "§6ERROR IN CREATION!",
                         createLore("§7§l§m----",
                                 "§6This game can't start because the tetris game is not correctly configured!",
                                 "",
@@ -46,8 +47,9 @@ public class Inventories {
                                 "§7Start Delay: " + tetrisBoard.getStartDelay(),
                                 "§7Block Speed: " + tetrisBoard.getBlockSpeed(),
                                 "§7§l§m----"));
+                ItemManager.applyNBTTag(itemStack, "tetcustom", "invalid");
             } else{
-                itemStack = createItemstack(Material.LIME_STAINED_GLASS_PANE, "§6Matchmaking: §e" + counter,
+                itemStack = createItemstack(Material.LIME_DYE, "§6Matchmaking: §e" + counter,
                         createLore("§7§l§m----",
                                 "§6Click on the item to go to the game. When clicked, the game wil automatically start after " + tetrisBoard.getStartDelay() + " seconds!",
                                 "",
@@ -55,6 +57,7 @@ public class Inventories {
                                 "§7Start Delay: " + tetrisBoard.getStartDelay(),
                                 "§7Block Speed: " + tetrisBoard.getBlockSpeed(),
                                 "§7§l§m----"));
+                ItemManager.applyNBTTag(itemStack, "tetcustom", "playable");
             }
             ItemManager.applyNBTTag(itemStack, "id", tetrisBoard.getID());
             inventory.setItem(counter, itemStack);

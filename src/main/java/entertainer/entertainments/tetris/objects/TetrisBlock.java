@@ -128,6 +128,11 @@ public class TetrisBlock {
         }
         saveVariants(variants);
     }
+
+    public Location getCurrentLocation() {
+        return currentLocation;
+    }
+
     public void place(){
         if (currentVariant == -1)return;
 
@@ -181,7 +186,9 @@ public class TetrisBlock {
         }
         return highestNumber + 1;
     }
+    private CopyBlock[][] collidingBlocks = new CopyBlock[12][3];
     public boolean canMove(TetrisDirection tetrisDirection){
+        collidingBlocks = new CopyBlock[12][3];
         switch (tetrisDirection){
             case DOWN:
                 CopyBlock[][][] blocks = variants.get(currentVariant);
@@ -197,6 +204,11 @@ public class TetrisBlock {
                         }
                         if (newLoc1 != null){
                             Location newLoc2 = newLoc1.clone().add(0, -1, 0);
+                            Block collideBlock = newLoc1.getBlock();
+                            if (collideBlock.getType() != Material.AIR){
+                                CopyBlock copyBlock = new CopyBlock(collideBlock);
+                                collidingBlocks[x][z] = copyBlock;
+                            }
 
                             if (newLoc1.getBlock().getType() != Material.AIR && newLoc2.getBlock().getType() != Material.AIR){
                                 return false;
@@ -278,7 +290,7 @@ public class TetrisBlock {
                     removeTetrisBlock();
                     tetrisBoard.stop();
                 }else{
-                    TetrisBlockCollideEvent event = new TetrisBlockCollideEvent(this);
+                    TetrisBlockCollideEvent event = new TetrisBlockCollideEvent(this, collidingBlocks);
                     Bukkit.getPluginManager().callEvent(event);
                 }
             }

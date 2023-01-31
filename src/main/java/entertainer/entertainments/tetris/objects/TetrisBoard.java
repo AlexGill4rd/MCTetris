@@ -76,8 +76,16 @@ public class TetrisBoard {
 
     private boolean started = false;
 
+    private Sound backgroundSound;
+    private Sound rowComplete;
+    private Sound endSound;
     //START AND STOP
     public boolean start(Player player){
+        player.stopAllSounds();
+        backgroundSound = new Sound(player, "custom:originaltetris", 20);
+        backgroundSound.setLoop(38736);
+        backgroundSound.play();
+
         this.player = player;
         activeGames.put(player.getUniqueId(), this.getID());
         previousPlayerLocation = player.getLocation().clone();
@@ -108,14 +116,14 @@ public class TetrisBoard {
         ItemStack leftStick = createItemstack(Material.IRON_NUGGET, "§6GO LEFT", createLore("§6§l§m------", "§7Tool to change the position of the tetris block on the screen", "", "§7Usage:", "§fRight-Click §7To go to the left" ,"§6§l§m------"));
         ItemStack goFaster = createItemstack(Material.IRON_INGOT, "§6§lGO DOWN", createLore("§6§l§m------", "§7Make the block go down faster", "", "§7Usage:", "§fRight-Click §8§lHOLD §7To make faster" ,"§6§l§m------"));
         ItemStack rightStick = createItemstack(Material.GOLD_NUGGET, "§6GO RIGHT", createLore("§6§l§m------", "§7Tool to change the position of the tetris block on the screen", "", "§7Usage:", "§fRight-Click §7To go to the right" ,"§6§l§m------"));
-        ItemStack leftRotate = createItemstack(Material.GOLD_INGOT, "§6ROTATE LEFT", createLore("§6§l§m------", "§7Tool to change the position of the tetris block on the screen", "", "§7Usage:", "§fRight-Click §7To go to the right" ,"§6§l§m------"));
-        ItemStack rightRotate = createItemstack(Material.NETHERITE_INGOT, "§6ROTATE RIGHT", createLore("§6§l§m------", "§7Tool to change the position of the tetris block on the screen", "", "§7Usage:", "§fRight-Click §7To go to the right" ,"§6§l§m------"));
+        ItemStack leftRotate = createItemstack(Material.GOLD_INGOT, "§6ROTATE RIGHT", createLore("§6§l§m------", "§7Tool to change the position of the tetris block on the screen", "", "§7Usage:", "§fRight-Click §7To go to the right" ,"§6§l§m------"));
+        ItemStack rightRotate = createItemstack(Material.NETHERITE_INGOT, "§6ROTATE LEFT", createLore("§6§l§m------", "§7Tool to change the position of the tetris block on the screen", "", "§7Usage:", "§fRight-Click §7To go to the right" ,"§6§l§m------"));
 
-        player.getInventory().setItem(0, leftStick);
-        player.getInventory().setItem(1, goFaster);
-        player.getInventory().setItem(2, rightStick);
-        player.getInventory().setItem(3, leftRotate);
-        player.getInventory().setItem(4, rightRotate);
+        player.getInventory().setItem(2, rightRotate);
+        player.getInventory().setItem(3, leftStick);
+        player.getInventory().setItem(4, goFaster);
+        player.getInventory().setItem(5, rightStick);
+        player.getInventory().setItem(6, leftRotate);
     }
     public void revertInventory(){
         for (int i : hostInventory.keySet()){
@@ -136,6 +144,13 @@ public class TetrisBoard {
 
     public void stop(){
         started = false;
+
+        if (player != null){
+            endSound = new Sound(player, "custom:gameover", 100);
+            endSound.play();
+            backgroundSound.stop();
+        }
+
         TetrisGameEndEvent event = new TetrisGameEndEvent(this);
         Bukkit.getPluginManager().callEvent(event);
     }
@@ -247,6 +262,9 @@ public class TetrisBoard {
                 if (counter >= arenaWidth){
                     foundRow = true;
                     removeRow(y/3);
+
+                    rowComplete = new Sound(player, "custom:lineclear", 100);
+                    rowComplete.play();
                     break;
                 }
             }

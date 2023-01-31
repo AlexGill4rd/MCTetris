@@ -26,15 +26,15 @@ public class TetrisControllerListener implements Listener {
 
         e.setCancelled(true);
 
-        if (e.getNewSlot() == 0)
+        if (e.getNewSlot() == 3)
             tetrisBoard.currentBlock.move(TetrisDirection.LEFT, -3);
-        else if (e.getNewSlot() == 1)
-            tetrisBoard.currentBlock.move(TetrisDirection.DOWN, -3);
-        else if (e.getNewSlot() == 2)
-            tetrisBoard.currentBlock.move(TetrisDirection.RIGHT, 3);
-        else if (e.getNewSlot() == 3)
-            tetrisBoard.currentBlock.rotate(RotateDirection.LEFT);
         else if (e.getNewSlot() == 4)
+            tetrisBoard.currentBlock.move(TetrisDirection.DOWN, -3);
+        else if (e.getNewSlot() == 5)
+            tetrisBoard.currentBlock.move(TetrisDirection.RIGHT, 3);
+        else if (e.getNewSlot() == 2)
+            tetrisBoard.currentBlock.rotate(RotateDirection.LEFT);
+        else if (e.getNewSlot() == 6)
             tetrisBoard.currentBlock.rotate(RotateDirection.RIGHT);
     }
     @EventHandler

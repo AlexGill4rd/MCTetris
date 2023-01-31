@@ -1,6 +1,7 @@
 package entertainer.entertainments.tetris.objects;
 
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 
 public class CopyBlock {
@@ -23,6 +24,13 @@ public class CopyBlock {
         this.y = y;
         this.material = material;
         this.blockData = blockData;
+    }
+    public CopyBlock(Block block) {
+        this.x = block.getX();
+        this.z = block.getZ();
+        this.y = block.getY();
+        this.material = block.getType();
+        this.blockData = block.getBlockData();
     }
 
     public int getX() {
