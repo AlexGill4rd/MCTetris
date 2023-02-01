@@ -1,7 +1,6 @@
 package entertainer.entertainments;
 
 import entertainer.entertainments.configuration.Configs;
-import entertainer.entertainments.groundlifter.listener.GroundLiftListener;
 import entertainer.entertainments.tetris.command.TetrisCommand;
 import entertainer.entertainments.tetris.inventories.InventoryClickListener;
 import entertainer.entertainments.tetris.listeners.*;
@@ -9,7 +8,6 @@ import entertainer.entertainments.tetris.objects.PalletHandler;
 import entertainer.entertainments.tetris.objects.TetrisBoard;
 import entertainer.entertainments.tetris.objects.TetrisPlayer;
 import entertainer.entertainments.tetris.objects.TetrisSelection;
-import entertainer.entertainments.tntbow.listeners.BowShootListener;
 import entertainer.entertainments.wordgenerator.WordGenerator;
 import entertainer.entertainments.wordgenerator.command.WordGeneratorCommand;
 import entertainer.entertainments.wordgenerator.listeners.WordsSelectionListener;
@@ -28,8 +26,6 @@ import static entertainer.entertainments.functions.Functions.convertStringToLoca
 
 public final class Entertainments extends JavaPlugin {
 
-    public static FeatureManager featureManager = new FeatureManager();
-
     public static WordGenerator wordGenerator;
     public static PalletHandler palletHandler;
     public static HashMap<Integer, TetrisBoard> tetrisBoards = new HashMap<>();
@@ -45,9 +41,6 @@ public final class Entertainments extends JavaPlugin {
         createCustomConfig3();
         createCustomConfig4();
         createCustomConfig5();
-
-        getServer().getPluginManager().registerEvents(new BowShootListener(), this);
-        getServer().getPluginManager().registerEvents(new GroundLiftListener(), this);
 
         //Tetris listeners
         getServer().getPluginManager().registerEvents(new PalletSelectListener(), this);
@@ -88,10 +81,6 @@ public final class Entertainments extends JavaPlugin {
         //Word generator
         getServer().getPluginManager().registerEvents(new WordsSelectionListener(), this);
         getCommand("wordgenerator").setExecutor(new WordGeneratorCommand());
-
-
-        getCommand("tntbow").setExecutor(new FeatureCommand());
-        getCommand("groundlifter").setExecutor(new FeatureCommand());
 
         for (Player player : Bukkit.getOnlinePlayers()){
             TetrisPlayer tetrisPlayer = new TetrisPlayer(player);
