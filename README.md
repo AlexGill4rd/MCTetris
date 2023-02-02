@@ -56,7 +56,7 @@ Therefore, a list that is somewhat larger than all the other features.
 ![image](https://user-images.githubusercontent.com/57497005/215902602-3a64e7af-6074-4a9b-ab70-ec4978e5f272.png)
 ![image](https://user-images.githubusercontent.com/57497005/215902631-04a638c4-f5d5-4fbe-b9b7-177d772fde49.png)
 
-As you see in this screenshot, the game was made in about 24hours ish. 2.5 Days of 12 hours work 😄
+As you can see in this screenshot, the game was made in about 24hours ish. 2.5 Days of 12 hours work 😄
 
 ### Conclusion
 As you saw in the screenshots, there is a custom made texturepack available. The game also includes sounds like the original tetris sound etc...
