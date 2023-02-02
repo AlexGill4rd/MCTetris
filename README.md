@@ -1,5 +1,5 @@
 # The Entertainer Plugin
-Plugin developed to push the boundaries of minecraft and get the most out of the game. The plugin offers several interesting ideas and activities 
+This plugin has been developed to push the boundaries of minecraft and get the most out of the game. The plugin offers several interesting ideas and activities 
 that have not been seen before in the minecraft scene. For example, we speak from Tetris to various interesting features.
 
 An extensively developed tetris game ready to go into multiplayer gaming. A game to play with your friends and have fun.
@@ -24,7 +24,7 @@ Therefore, a list that is somewhat larger than all the other features.
 * Word generator. Tool to generate words in the air with block (Includes numbers and some characters. Also customizeable. Not so easy)
 * Pre defined tetris pallet for your use
 * Gui for tetris game joining
-* Stupid kid friendly (I think)
+* Fool proof (I guess 😅)
 * Tetris area spawn point
 * Data saving in configs
 * And some features to come...
@@ -56,7 +56,7 @@ Therefore, a list that is somewhat larger than all the other features.
 ![image](https://user-images.githubusercontent.com/57497005/215902602-3a64e7af-6074-4a9b-ab70-ec4978e5f272.png)
 ![image](https://user-images.githubusercontent.com/57497005/215902631-04a638c4-f5d5-4fbe-b9b7-177d772fde49.png)
 
-As you see in this screenshot, the game was made in about 24hours. 2.5 Days of 12 hours work :D
+As you see in this screenshot, the game was made in about 24hours ish. 2.5 Days of 12 hours work 😄
 
 ### Conclusion
 As you saw in the screenshots, there is a custom made texturepack available. The game also includes sounds like the original tetris sound etc...
