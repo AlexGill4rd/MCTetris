@@ -1,0 +1,70 @@
+players:
+  385a0b65-f137-40ad-b576-c99072aaa639:
+    TotalScore: 89
+    FirstJoined: 145764751
+    TotalLines: 27
+    LastGame:
+      LastScore: 89
+      LastGameDuration: 333101
+      LastLines: 27
+    stats:
+      join_date: 0
+      total_score: 720
+      total_lines: 237
+      highscore: 567
+      history:
+        '0':
+          score: 0
+          lines: 0
+          duration: 56949
+          date: 1675189578345
+        '1':
+          score: 0
+          lines: 0
+          duration: 60351
+          date: 1675189893393
+        '2':
+          score: 0
+          lines: 0
+          duration: 67501
+          date: 1675190037843
+        '3':
+          score: 50
+          lines: 13
+          duration: 177252
+          date: 1675190187693
+        '4':
+          score: 8
+          lines: 0
+          duration: 20400
+          date: 1675190458744
+        '5':
+          score: 15
+          lines: 1
+          duration: 77992
+          date: 1675191366451
+        '6':
+          score: 567
+          lines: 211
+          duration: 1956100
+          date: 1675191663694
+        '7':
+          score: 21
+          lines: 3
+          duration: 105248
+          date: 1675202045329
+        '8':
+          score: 3
+          lines: 1
+          duration: 12419
+          date: 1675204661329
+        '9':
+          score: 16
+          lines: 1
+          duration: 46101
+          date: 1675449162779
+        '10':
+          score: 0
+          lines: 0
+          duration: 6288
+          date: 1675449308432
